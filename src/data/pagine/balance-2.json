@@ -4,7 +4,7 @@
 	"nome": "Balance",
 	"seo": {
 		"title": "Balance - Body Energie | Villafranca di Verona",
-		"description": "Un allenamento che unisce in modo armonioso Tai Chi, Yoga e Pilates , creando una pratica fluida e adatta a tutti. Grazie a movimenti lenti, controllati e…"
+		"description": "Un allenamento che unisce in modo armonioso Tai Chi, Yoga e Pilates, creando una pratica fluida e adatta a tutti."
 	},
 	"hero": {
 		"titolo": "balance",
@@ -53,20 +53,6 @@
 					"valore": 50
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

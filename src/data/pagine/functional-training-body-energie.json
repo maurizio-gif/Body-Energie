@@ -4,7 +4,7 @@
 	"nome": "Functional Training",
 	"seo": {
 		"title": "Functional Training - Body Energie | Villafranca di Verona",
-		"description": "Functional Training ti spinge oltre i tuoi limiti attraverso allenamenti a circuito ad alta intensità. Sfida le tue capacità di forza, resistenza e…"
+		"description": "Functional Training ti spinge oltre i tuoi limiti attraverso allenamenti a circuito ad alta intensità."
 	},
 	"hero": {
 		"titolo": "Functional",
@@ -55,20 +55,6 @@
 					"valore": 10
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

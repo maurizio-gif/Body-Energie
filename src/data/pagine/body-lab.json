@@ -4,7 +4,7 @@
 	"nome": "Body Lab",
 	"seo": {
 		"title": "Body Lab - Body Energie | Villafranca di Verona",
-		"description": "Il Body Lab di Body Energie nasce come spazio dedicato alla salute, alla prevenzione e al miglioramento del benessere personale. Qui convergono diverse…"
+		"description": "Il Body Lab di Body Energie nasce come spazio dedicato alla salute, alla prevenzione e al miglioramento del benessere personale."
 	},
 	"hero": {
 		"titolo": "body lab",
@@ -141,20 +141,6 @@
 			"portareTitolo": null,
 			"portare": [],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

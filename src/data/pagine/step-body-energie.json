@@ -4,7 +4,7 @@
 	"nome": "Step",
 	"seo": {
 		"title": "Step - Body Energie | Villafranca di Verona",
-		"description": "Step è un allenamento aerobico dinamico che allena coordinazione e concentrazione attraverso coreografie coinvolgenti su e giù dallo step. Ogni lezione…"
+		"description": "Step è un allenamento aerobico dinamico che allena coordinazione e concentrazione attraverso coreografie coinvolgenti su e giù dallo step."
 	},
 	"hero": {
 		"titolo": "step",
@@ -53,20 +53,6 @@
 					"valore": 10
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

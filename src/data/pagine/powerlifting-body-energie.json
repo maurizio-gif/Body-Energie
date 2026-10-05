@@ -4,7 +4,7 @@
 	"nome": "Powerlifting",
 	"seo": {
 		"title": "Powerlifting - Body Energie | Villafranca di Verona",
-		"description": "POWERLIFTING è il corso dedicato all'apprendimento della tecnica corretta e all'aumento della forza nei tre esercizi fondamentali: squat, panca piana e…"
+		"description": "Powerlifting: impara la tecnica corretta e aumenta la forza nei tre esercizi fondamentali, squat, panca piana e stacco da terra."
 	},
 	"hero": {
 		"titolo": "powerlifting",
@@ -53,20 +53,6 @@
 					"valore": 5
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

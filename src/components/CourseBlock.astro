@@ -53,6 +53,8 @@ const textAnim = reverse ? 'from-left' : 'from-right';
 const immagini = blocco.immagini?.length ? blocco.immagini : !blocco.video && fallbackImage ? [fallbackImage] : [];
 const haMedia = !!blocco.video || immagini.length > 0;
 const nomeMedia = blocco.titolo ?? 'della pagina';
+// Descrizione per le foto (utile anche alla ricerca per immagini): solo se il blocco ha un titolo.
+const descrizioneFoto = blocco.titolo ? `${blocco.titolo} - Body Energie, Villafranca di Verona` : undefined;
 const arancio = tone === 'arancio';
 ---
 
@@ -74,9 +76,9 @@ const arancio = tone === 'arancio';
 							</button>
 						</>
 					) : immagini.length > 1 ? (
-						<ImageSlider images={immagini} label={`Foto: ${nomeMedia}`} />
+						<ImageSlider images={immagini} label={`Foto: ${nomeMedia}`} alt={descrizioneFoto} />
 					) : (
-						<Img src={immagini[0]} alt="" class="img-cover" sizes="(max-width: 900px) 90vw, 46vw" />
+						<Img src={immagini[0]} alt={descrizioneFoto ?? ''} class="img-cover" sizes="(max-width: 900px) 90vw, 46vw" />
 					)}
 				</div>
 			)

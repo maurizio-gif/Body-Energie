@@ -67,6 +67,7 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 </header>
 
 <script>
+	// @ts-nocheck — script vanilla per il browser: gli elementi della pagina ci sono sempre, i tipi DOM generici qui danno solo falsi errori
 	const toggle = document.querySelector('[data-hd-toggle]');
 	const nav = document.querySelector('[data-hd-nav]');
 	const impostaMenu = (aperto) => {
@@ -326,7 +327,6 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 	}
 
 	.hd__col:hover > .hd__panel,
-	.hd__col:focus-within > .hd__panel,
 	.hd__col.is-open > .hd__panel {
 		opacity: 1;
 		visibility: visible;
@@ -375,10 +375,8 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 	@media (min-width: 900.02px) {
 		/* Titolo aperto: arancione e freccia verso il basso. */
 		.hd__col:hover > .hd__col-title,
-		.hd__col:focus-within > .hd__col-title,
 		.hd__col.is-open > .hd__col-title,
 		.hd__col:hover > .hd__col-title .hd__chevron,
-		.hd__col:focus-within > .hd__col-title .hd__chevron,
 		.hd__col.is-open > .hd__col-title .hd__chevron {
 			color: var(--accent);
 		}
@@ -388,7 +386,6 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 		}
 
 		.hd__col:hover .hd__chevron,
-		.hd__col:focus-within .hd__chevron,
 		.hd__col.is-open .hd__chevron {
 			transform: rotate(180deg);
 		}
@@ -427,7 +424,6 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 		}
 
 		.hd__col:hover > .hd__panel,
-		.hd__col:focus-within > .hd__panel,
 		.hd__col.is-open > .hd__panel {
 			transform: none;
 			transition: opacity 0.2s ease, transform 0.35s var(--ease-out-crit), visibility 0s;
@@ -445,7 +441,6 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 		}
 
 		.hd__col:hover > .hd__panel li,
-		.hd__col:focus-within > .hd__panel li,
 		.hd__col.is-open > .hd__panel li {
 			opacity: 1;
 			transform: none;

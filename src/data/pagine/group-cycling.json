@@ -4,7 +4,7 @@
 	"nome": "Group Cycling",
 	"seo": {
 		"title": "Group Cycling - Body Energie | Villafranca di Verona",
-		"description": "Il Group Cycling è un allenamento indoor moderno che unisce energia, divertimento e sicurezza. Pedalerai a ritmo di musica su bike GROUP CYCLE™ CONNECT by…"
+		"description": "Il Group Cycling è un allenamento indoor moderno che unisce energia, divertimento e sicurezza."
 	},
 	"hero": {
 		"titolo": "group",
@@ -55,20 +55,6 @@
 					"valore": 10
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

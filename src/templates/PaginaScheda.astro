@@ -11,7 +11,6 @@ import Layout from '../layouts/Layout.astro';
 import PageHero from '../components/PageHero.astro';
 import PhotoMarquee from '../components/PhotoMarquee.astro';
 import CourseBlock from '../components/CourseBlock.astro';
-import FaqAccordion from '../components/FaqAccordion.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import IntroTitolo from '../components/IntroTitolo.astro';
 import IndiceAncore from '../components/IndiceAncore.astro';
@@ -39,7 +38,6 @@ interface Props {
 		/** Elenco di collegamenti alle sezioni della pagina (Body Lab, Sala Pesi). */
 		percorsi?: { titolo?: string; voci: { testo: string; href: string }[] } | null;
 		blocchi: any[];
-		faq: { domanda: string; risposta: string | null }[];
 	};
 }
 
@@ -63,7 +61,7 @@ const sfondoSenzaMedia = (i: number) =>
 	pagina.tipo !== 'corso' ? undefined : foto.length ? foto[i % foto.length].src : pagina.hero.immagine;
 ---
 
-<Layout title={pagina.seo.title} description={pagina.seo.description} image={pagina.hero.immagine} headerTone="overlay">
+<Layout title={pagina.seo.title} description={pagina.seo.description} image={pagina.hero.immagine} breadcrumb={pagina.nome} headerTone="overlay">
 	<PageHero image={pagina.hero.immagine} title={pagina.hero.titolo} words={pagina.hero.parole}>
 		{
 			pulsanti.map((p) =>
@@ -122,7 +120,6 @@ const sfondoSenzaMedia = (i: number) =>
 		))
 	}
 
-	<FaqAccordion faq={pagina.faq} />
 </Layout>
 
 <style>

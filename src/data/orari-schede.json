@@ -1,0 +1,58 @@
+{
+	"Pilates": {
+		"slug": "pilates-matwork"
+	},
+	"Reformer": {
+		"slug": "pilates-reformer"
+	},
+	"Reformer Intro 30'": {
+		"slug": "pilates-reformer"
+	},
+	"Acqua Gym": {
+		"slug": "acqua",
+		"blocco": 0
+	},
+	"Acqua Bike": {
+		"slug": "acqua",
+		"blocco": 1
+	},
+	"Body Pump": {
+		"slug": "body-pump-body-energie"
+	},
+	"Back School": {
+		"slug": "back-school"
+	},
+	"Balance": {
+		"slug": "balance-2"
+	},
+	"Strength Devel.": {
+		"slug": "strenght-development"
+	},
+	"Funct. Training": {
+		"slug": "functional-training-body-energie"
+	},
+	"Shapes": {
+		"slug": "balance"
+	},
+	"Yoga": {
+		"slug": "yoga"
+	},
+	"Power Lifting": {
+		"slug": "powerlifting-body-energie"
+	},
+	"TRX": {
+		"slug": "trx-3"
+	},
+	"Group Cycling": {
+		"slug": "group-cycling"
+	},
+	"Zumba": {
+		"slug": "zumba-body-energie"
+	},
+	"Step": {
+		"slug": "step-body-energie"
+	},
+	"Technogym Ride": {
+		"slug": "technogym-ride"
+	}
+}

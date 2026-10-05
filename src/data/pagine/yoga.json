@@ -4,7 +4,7 @@
 	"nome": "Yoga",
 	"seo": {
 		"title": "Yoga - Body Energie | Villafranca di Verona",
-		"description": "Il corso Yoga ti guiderà verso un equilibrio perfetto tra corpo e mente, attraverso movimenti fluidi, stretching profondo e un'armoniosa connessione al…"
+		"description": "Il corso Yoga ti guiderà verso un equilibrio perfetto tra corpo e mente, attraverso movimenti fluidi, stretching profondo e un'armoniosa connessione al respiro."
 	},
 	"hero": {
 		"titolo": "yoga",
@@ -53,20 +53,6 @@
 					"valore": 40
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

@@ -4,7 +4,7 @@
 	"nome": "Centro Estetico",
 	"seo": {
 		"title": "Centro Estetico - Body Energie | Villafranca di Verona",
-		"description": "Il centro estetico di Body Energie è uno spazio dedicato alla cura del corpo e al benessere , dove professionalità e tecnologie avanzate si uniscono per…"
+		"description": "Il centro estetico di Body Energie è uno spazio dedicato alla cura del corpo e al benessere, tra professionalità e tecnologie avanzate."
 	},
 	"hero": {
 		"titolo": "CENTRO",
@@ -35,20 +35,6 @@
 			"portareTitolo": null,
 			"portare": [],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

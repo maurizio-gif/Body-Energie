@@ -1,13 +1,13 @@
 {
 	"tipo": "servizio",
 	"slug": "termario",
-	"nome": "Termario",
+	"nome": "Termarium",
 	"seo": {
-		"title": "Termario - Body Energie | Villafranca di Verona",
-		"description": "Il termario di Body Energie è uno spazio dedicato al benessere totale. In un ambiente curato e accogliente, potrai lasciarti coccolare dall’idromassaggio…"
+		"title": "Termarium - Body Energie | Villafranca di Verona",
+		"description": "Il Termarium di Body Energie è uno spazio dedicato al benessere totale: idromassaggio, bagno turco, sauna finlandese e sauna romana."
 	},
 	"hero": {
-		"titolo": "termario",
+		"titolo": "termarium",
 		"parole": [],
 		"immagine": "/wp-content/uploads/2025/11/Body-Energie-Ambienti-68-scaled.jpg",
 		"pulsanti": [
@@ -21,9 +21,9 @@
 	"blocchi": [
 		{
 			"id": null,
-			"titolo": "Termario",
+			"titolo": "Termarium",
 			"sottotitolo": null,
-			"descrizioneHtml": "<p>Il termario di Body Energie è uno <strong>spazio dedicato al benessere totale.</strong> In un ambiente curato e accogliente, potrai lasciarti coccolare dall’idromassaggio e immergerti in <strong>tre diverse esperienze: il bagno turco, la sauna finlandese e la sauna romana</strong>, ideata per chi preferisce temperature più moderate che garantiscono un effetto purificante e distensivo. Una seduta termale elimina le tensioni e accompagna il corpo in un vero processo di depurazione. <strong>La sauna finlandese</strong>, con il suo calore secco che varia dai 50° agli 80/90°, <strong>favorisce l’equilibrio psicofisico</strong>. La sudorazione intensa permette di eliminare tossine e acidi, rendendo la pelle più luminosa e contribuendo a rafforzare le difese immunitarie. <strong>Il bagno turco</strong>, grazie al vapore caldo tra i 40° e i 45°, stimola la circolazione, <strong>scioglie le tossine, tonifica, rilassa e rende la pelle più morbida ed elastica</strong>. Nel termario ha grande importanza anche la quiete: <strong>un ambiente silenzioso, un microclima bilanciato e un ritmo lento</strong> favoriscono la meditazione e un recupero profondo dallo stress quotidiano. Al termario di Body Energie potrai <strong>riscoprire il valore del tempo per te stesso, riconnetterti con il tuo equilibrio interiore.</strong></p>",
+			"descrizioneHtml": "<p>Il termarium di Body Energie è uno <strong>spazio dedicato al benessere totale.</strong> In un ambiente curato e accogliente, potrai lasciarti coccolare dall’idromassaggio e immergerti in <strong>tre diverse esperienze: il bagno turco, la sauna finlandese e la sauna romana</strong>, ideata per chi preferisce temperature più moderate che garantiscono un effetto purificante e distensivo. Una seduta termale elimina le tensioni e accompagna il corpo in un vero processo di depurazione. <strong>La sauna finlandese</strong>, con il suo calore secco che varia dai 50° agli 80/90°, <strong>favorisce l’equilibrio psicofisico</strong>. La sudorazione intensa permette di eliminare tossine e acidi, rendendo la pelle più luminosa e contribuendo a rafforzare le difese immunitarie. <strong>Il bagno turco</strong>, grazie al vapore caldo tra i 40° e i 45°, stimola la circolazione, <strong>scioglie le tossine, tonifica, rilassa e rende la pelle più morbida ed elastica</strong>. Nel termarium ha grande importanza anche la quiete: <strong>un ambiente silenzioso, un microclima bilanciato e un ritmo lento</strong> favoriscono la meditazione e un recupero profondo dallo stress quotidiano. Al termarium di Body Energie potrai <strong>riscoprire il valore del tempo per te stesso, riconnetterti con il tuo equilibrio interiore.</strong></p>",
 			"video": null,
 			"immagini": [
 				"/wp-content/uploads/2025/11/Body-Energie-Ambienti-72-scaled.jpg",
@@ -54,20 +54,6 @@
 				}
 			],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

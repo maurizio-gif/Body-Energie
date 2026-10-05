@@ -4,7 +4,7 @@
 	"nome": "Pilates Reformer",
 	"seo": {
 		"title": "Pilates Reformer - Body Energie | Villafranca di Verona",
-		"description": "Il Pilates Reformer del centro Body Energie è un allenamento completo e coinvolgente che migliora la flessibilità, aumenta la resistenza muscolare e…"
+		"description": "Il Pilates Reformer del centro Body Energie è un allenamento completo e coinvolgente che migliora la flessibilità."
 	},
 	"hero": {
 		"titolo": "pilates",
@@ -42,20 +42,6 @@
 				}
 			],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

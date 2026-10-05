@@ -30,7 +30,7 @@ const scrivi = (slug, dati) => fs.writeFileSync(path.join(OUT, slug + '.json'), 
 const NOMI = {
 	'sala-pesi': 'Sala Pesi',
 	'personal-training': 'Personal Training',
-	termario: 'Termario',
+	termario: 'Termarium',
 	'nuoto-bimbi': 'Nuoto Bimbi',
 	'body-camp': 'Body Summer Camp',
 	ciclismo: 'Squadra Ciclistica',
@@ -185,7 +185,7 @@ const ELENCO_SEZIONI = {
 
 for (const slug of SERVIZI) {
 	const el = leggi(slug);
-	const { cont: contFaq, faq } = faqDa(el);
+	const { cont: contFaq } = faqDa(el);
 	const sezioni = el.slice(1).filter((sec) => sec !== contFaq);
 
 	let blocchi = [];
@@ -238,10 +238,9 @@ for (const slug of SERVIZI) {
 		...(intro ? { intro } : {}),
 		percorsi,
 		blocchi,
-		faq,
 	};
 	scrivi(slug, pagina);
-	indice.push({ slug, blocchi: blocchi.length, conFoto: blocchi.filter((b) => b.immagini.length).length, multi: blocchi.filter((b) => b.immagini.length > 1).length, pulsanti: pagina.hero.pulsanti.length, faq: faq.length });
+	indice.push({ slug, blocchi: blocchi.length, conFoto: blocchi.filter((b) => b.immagini.length).length, multi: blocchi.filter((b) => b.immagini.length > 1).length, pulsanti: pagina.hero.pulsanti.length });
 }
 
 // ---- Elenco corsi fitness -------------------------------------------------
@@ -296,7 +295,7 @@ for (const slug of SERVIZI) {
 		intro: { titolo: strip(introWs.find((w) => w.widgetType === 'heading').settings.title), html: introHtml },
 		gruppi,
 	});
-	indice.push({ slug, blocchi: gruppi.length, conFoto: gruppi.length, multi: 0, pulsanti: 2, faq: 0 });
+	indice.push({ slug, blocchi: gruppi.length, conFoto: gruppi.length, multi: 0, pulsanti: 2 });
 }
 
 // ---- Pagine di testo ------------------------------------------------------
@@ -311,7 +310,7 @@ for (const slug of ['privacy-body-energie', 'contributo-regione-veneto']) {
 	const img = ws.find((w) => w.widgetType === 'image')?.settings.image?.url;
 	const nome = NOMI[slug];
 	scrivi(slug, { tipo: 'testo', slug, nome, seo: seoDa(nome, html.replace(/<h2>.*?<\/h2>/g, '')), titolo, html, immagine: percorso(img) || null });
-	indice.push({ slug, blocchi: 1, conFoto: img ? 1 : 0, multi: 0, pulsanti: 0, faq: 0 });
+	indice.push({ slug, blocchi: 1, conFoto: img ? 1 : 0, multi: 0, pulsanti: 0 });
 }
 
 // ---- Planning orari ---------------------------------------------------------

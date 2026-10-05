@@ -40,7 +40,7 @@ const colonne = (n: number) => (n <= 4 ? n : 3);
 const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
 ---
 
-<Layout title={pagina.seo.title} description={pagina.seo.description} image={pagina.hero.immagine} headerTone="overlay">
+<Layout title={pagina.seo.title} description={pagina.seo.description} image={pagina.hero.immagine} breadcrumb={pagina.nome} headerTone="overlay">
 	<PageHero image={pagina.hero.immagine} title={pagina.hero.titolo} words={pagina.hero.parole}>
 		{
 			pagina.hero.pulsanti?.map((p) =>

@@ -4,7 +4,7 @@
 	"nome": "Nuoto Bimbi",
 	"seo": {
 		"title": "Nuoto Bimbi - Body Energie | Villafranca di Verona",
-		"description": "I corsi di nuoto baby di Body Energie accompagnano i più piccoli — dai 4 mesi ai 3 anni — in un’esperienza unica di scoperta, gioco e relazione in acqua.…"
+		"description": "I corsi di nuoto baby di Body Energie accompagnano i più piccoli — dai 4 mesi ai 3 anni — in un’esperienza unica di scoperta, gioco e relazione in acqua."
 	},
 	"hero": {
 		"titolo": "nuoto",
@@ -97,20 +97,6 @@
 				}
 			],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

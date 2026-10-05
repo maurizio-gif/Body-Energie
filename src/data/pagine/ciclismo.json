@@ -4,7 +4,7 @@
 	"nome": "Squadra Ciclistica",
 	"seo": {
 		"title": "Squadra Ciclistica - Body Energie | Villafranca di Verona",
-		"description": "EKOI Body Energie è la squadra ciclistica giovanile nata dalla collaborazione tra Body Energie e la storica Società Ciclistica Barlottini, attiva dal 2002…"
+		"description": "EKOI Body Energie è la squadra ciclistica giovanile nata dalla collaborazione tra Body Energie e la storica Società Ciclistica Barlottini."
 	},
 	"hero": {
 		"titolo": "squadra ciclistica",
@@ -50,20 +50,6 @@
 			"portareTitolo": null,
 			"portare": [],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

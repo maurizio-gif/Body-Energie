@@ -4,7 +4,7 @@
 	"nome": "Body Summer Camp",
 	"seo": {
 		"title": "Body Summer Camp - Body Energie | Villafranca di Verona",
-		"description": "Il Body Camp è il centro estivo di Body Energie , dedicato a bambini e ragazzi dai 4 ai 13 anni . Un’esperienza unica che unisce sport, gioco, creatività…"
+		"description": "Il Body Camp è il centro estivo di Body Energie a Villafranca di Verona per bambini e ragazzi dai 4 ai 13 anni: sport, gioco e creatività."
 	},
 	"hero": {
 		"titolo": "BODY",
@@ -138,20 +138,6 @@
 			"portareTitolo": null,
 			"portare": [],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

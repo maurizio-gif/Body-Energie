@@ -72,16 +72,8 @@ for (const slug of CORSI) {
 	const d = JSON.parse(fs.readFileSync(path.join(IN, slug + '.json'), 'utf8'));
 	const el = d.elementorData;
 	const hero = el[0];
-	// FAQ: le domande esistono, le risposte erano "Lorem ipsum" (segnaposto).
+	// FAQ: nel vecchio sito le risposte erano "Lorem ipsum" (segnaposto): il sito non le ha.
 	const accContainer = el.find((sec) => widgets(sec).some((w) => w.widgetType === 'nested-accordion')) ?? el[el.length - 1];
-	const acc = widgets(accContainer).find((w) => w.widgetType === 'nested-accordion');
-	const faq = (acc?.settings.items || []).map((it, i) => {
-		const testi = widgets(acc.elements?.[i] || { elements: [] })
-			.filter((w) => w.widgetType === 'text-editor')
-			.map((w) => pulisci(w.settings.editor))
-			.join('');
-		return { domanda: strip(it.item_title), risposta: testi && !/lorem ipsum/i.test(testi) ? testi : null };
-	});
 
 	// Galleria: la sola pagina "acqua" ha un carosello di foto della piscina.
 	const carosello = el
@@ -111,9 +103,8 @@ for (const slug of CORSI) {
 		hero: heroDa(hero),
 		galleria,
 		blocchi,
-		faq,
 	};
 	fs.writeFileSync(path.join(OUT, slug + '.json'), JSON.stringify(pagina, null, '\t') + '\n');
-	indice.push({ slug, blocchi: blocchi.length, video: blocchi.filter((b) => b.video).length, barre: blocchi.reduce((n, b) => n + b.intensita.length, 0), faqConRisposta: faq.filter((f) => f.risposta).length });
+	indice.push({ slug, blocchi: blocchi.length, video: blocchi.filter((b) => b.video).length, barre: blocchi.reduce((n, b) => n + b.intensita.length, 0) });
 }
 console.table(indice);

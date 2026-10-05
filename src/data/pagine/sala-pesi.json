@@ -5,7 +5,7 @@
 	"stile": "arancio",
 	"seo": {
 		"title": "Sala Pesi - Body Energie | Villafranca di Verona",
-		"description": "Le due sale Gym Floor, l'Area LoftGym e l'Air Park di Body Energie offrono un’esperienza di allenamento completa, tra innovazione e natura. Spazi moderni…"
+		"description": "Le due sale Gym Floor, l'Area LoftGym e l'Air Park di Body Energie offrono un’esperienza di allenamento completa, tra innovazione e natura."
 	},
 	"hero": {
 		"titolo": "gym",
@@ -126,20 +126,6 @@
 			"portareTitolo": null,
 			"portare": [],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

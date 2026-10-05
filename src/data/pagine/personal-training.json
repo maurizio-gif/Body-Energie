@@ -4,7 +4,7 @@
 	"nome": "Personal Training",
 	"seo": {
 		"title": "Personal Training - Body Energie | Villafranca di Verona",
-		"description": "Il Personal Training di Body Energie è un servizio esclusivo pensato per chi desidera un percorso di allenamento completamente personalizzato , costruito…"
+		"description": "Il Personal Training di Body Energie è un servizio esclusivo pensato per chi desidera un percorso di allenamento completamente personalizzato."
 	},
 	"hero": {
 		"titolo": "Personal",
@@ -58,20 +58,6 @@
 				}
 			],
 			"intensita": []
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

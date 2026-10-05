@@ -4,7 +4,7 @@
 	"nome": "Shapes",
 	"seo": {
 		"title": "Shapes - Body Energie | Villafranca di Verona",
-		"description": "SHAPES combina il meglio del Pilates, del Barre e del Power Yoga in un unico allenamento dinamico e completo. Attraverso piccoli movimenti controllati e…"
+		"description": "SHAPES combina il meglio del Pilates, del Barre e del Power Yoga in un unico allenamento dinamico e completo."
 	},
 	"hero": {
 		"titolo": "shapes",
@@ -53,20 +53,6 @@
 					"valore": 35
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

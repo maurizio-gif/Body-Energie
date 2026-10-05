@@ -4,7 +4,7 @@
 	"nome": "Zumba",
 	"seo": {
 		"title": "Zumba - Body Energie | Villafranca di Verona",
-		"description": "ZUMBA è puro divertimento a ritmo di musica! Lasciati trascinare da ritmi latini travolgenti e movimenti sinuosi in un mix esplosivo che allena la…"
+		"description": "ZUMBA è puro divertimento a ritmo di musica: ritmi latini e movimenti sinuosi in un mix esplosivo che allena la componente aerobica."
 	},
 	"hero": {
 		"titolo": "zumba",
@@ -53,20 +53,6 @@
 					"valore": 15
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

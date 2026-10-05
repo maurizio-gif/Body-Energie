@@ -4,7 +4,7 @@
 	"nome": "Body Pump",
 	"seo": {
 		"title": "Body Pump - Body Energie | Villafranca di Verona",
-		"description": "Body Pump è un allenamento di tonificazione con i pesi che ti sfida a lavorare su tutti i gruppi muscolari. Utilizzando bilancieri e pesi, esegui…"
+		"description": "Body Pump è un allenamento di tonificazione con i pesi che ti sfida a lavorare su tutti i gruppi muscolari."
 	},
 	"hero": {
 		"titolo": "body",
@@ -55,20 +55,6 @@
 					"valore": 10
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

@@ -1,6 +1,6 @@
 ---
 import { megaMenu, voceOrari } from '../data/nav';
-import { site, social, legalLinks, mapsEmbedSrc, mapsDirectionsUrl } from '../data/site';
+import { site, social, legalLinks, mapsEmbedSrc } from '../data/site';
 import { orari, orariEstivi } from '../data/orari';
 import { stats, formattaNumero } from '../data/stats';
 import Img from './Img.astro';
@@ -144,13 +144,13 @@ const colonneFoto = [
 			</div>
 		</div>
 
-		<div class="find-us__map" data-anim="from-left" data-mappa={mapsEmbedSrc} data-mappa-titolo={`Mappa - Body Energie, ${address}`}>
-			<!-- La mappa e' di Google e salva cookie: si carica solo se la persona lo chiede. -->
-			<div class="map-gate">
-				<p class="map-gate__txt">La mappa è di Google Maps e può usare cookie: la carichiamo solo se vuoi.</p>
-				<button class="btn" type="button" data-carica-mappa>Carica la mappa</button>
-				<a class="map-gate__link" href={mapsDirectionsUrl} target="_blank" rel="noopener">Apri in Google Maps</a>
-			</div>
+		<div class="find-us__map" data-anim="from-left">
+			<iframe
+				src={mapsEmbedSrc}
+				title={`Mappa - Body Energie, ${address}`}
+				loading="lazy"
+				referrerpolicy="no-referrer-when-downgrade"
+			></iframe>
 		</div>
 	</section>
 
@@ -277,19 +277,6 @@ const colonneFoto = [
 		</div>
 	</div>
 </footer>
-
-<script>
-	// Mappa di Google: l'iframe nasce solo al clic su "Carica la mappa".
-	document.querySelectorAll<HTMLElement>('[data-mappa]').forEach((box) => {
-		box.querySelector('[data-carica-mappa]')?.addEventListener('click', () => {
-			const iframe = document.createElement('iframe');
-			iframe.src = box.dataset.mappa ?? '';
-			iframe.title = box.dataset.mappaTitolo ?? 'Mappa';
-			iframe.referrerPolicy = 'no-referrer-when-downgrade';
-			box.replaceChildren(iframe);
-		});
-	});
-</script>
 
 <style>
 	.ft {
@@ -589,35 +576,6 @@ const colonneFoto = [
 		margin: 60px 0 60px var(--gutter);
 		overflow: hidden;
 		border-radius: var(--radius-lg);
-	}
-
-	.map-gate {
-		position: absolute;
-		inset: 0;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 14px;
-		padding: 20px;
-		text-align: center;
-		background: var(--bg-dark-soft);
-		color: var(--text-on-dark);
-	}
-
-	.map-gate__txt {
-		margin: 0;
-		max-width: 26rem;
-		font-size: var(--text-sm);
-		color: var(--text-muted-on-dark);
-	}
-
-	.map-gate__link {
-		font-size: var(--text-sm);
-		font-weight: 600;
-		color: var(--accent-hover);
-		text-decoration: underline;
-		text-underline-offset: 3px;
 	}
 
 	.find-us__map iframe {

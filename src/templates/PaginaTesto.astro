@@ -21,7 +21,7 @@ interface Props {
 const { pagina } = Astro.props;
 ---
 
-<Layout title={pagina.seo.title} description={pagina.seo.description}>
+<Layout title={pagina.seo.title} description={pagina.seo.description} breadcrumb={pagina.nome}>
 	<article class="testo on-dark">
 		<SectionTitle as="h1" tone="dark-bg" gap={40}>{pagina.titolo}</SectionTitle>
 		<div class="testo__corpo container-wide">

@@ -1,0 +1,44 @@
+{
+	"nuotoLibero": {
+		"titolo": "Orario Nuoto Libero",
+		"giorni": [
+			{ "g": "LUN", "orari": "5:00-8:15 / 11:00-13:00 / 14:45-16:15 / 19:45-21:30" },
+			{ "g": "MAR", "orari": "5:00-6:30 / 7:15-8:15 / 10:00-13:00 / 14:45-16:15 / 19:45-21:30" },
+			{ "g": "MER", "orari": "5:00-8:15 / 11:00-13:00 / 13:45-16:15 / 19:45-21:30" },
+			{ "g": "GIO", "orari": "5:00-8:15 / 11:00-13:00 / 14:45-16:15 / 19:45-21:30" },
+			{ "g": "VEN", "orari": "5:00-8:15 / 11:00-16:15 / 19:45-21:30" },
+			{ "g": "SAB", "orari": "12:45-15:45" },
+			{ "g": "DOM", "orari": "8:00-9:00 / 10:45-13:00" }
+		],
+		"avviso": "Per l’accesso alla zona piscina è necessario l’utilizzo della cuffia e ciabatte. È obbligatorio fare la doccia prima di accedere alla piscina. L’orario può subire delle variazioni durante la stagione. Il nuoto è libero quando la piscina è libera dai corsi."
+	},
+	"regole": {
+		"titolo": "Gli orari possono subire variazioni",
+		"voci": [
+			"**OBBLIGATORIO FORNIRE IL CERTIFICATO MEDICO DI STATO DI BUONA SALUTE** per attività agonistica oppure non agonistica. La certificazione deve essere originale e vi verrà poi restituita nel momento dell’inserimento. Se non hai ancora un Certificato Medico puoi rivolgerti al **CENTRO MEDICO – SPORTIVO STUDIO SALUTE** Via Marconi 28 - Villafranca di Verona 045 6300020",
+			"La prenotazione è obbligatoria per tutti i servizi e si dovrà confermare la presenza alla lezione tramite il lettore dell’app o della tessera posto sui tornelli all’ingresso. Non è consentita la prenotazione di due corsi consecutivi della stessa disciplina. Le disdette, per le lezioni della fascia oraria del mattino 8:00-12:00, devono essere effettuate entro le 19:30 del giorno precedente, mentre i corsi della fascia oraria 13:00-21:00, 2 ore prima dell’inizio. Dopo 3 appuntamenti non rispettati, senza preavviso di rinuncia, il servizio verrà sospeso per 1 settimana, pertanto si bloccherà l’applicazione e quindi anche la possibilità di prenotare i corsi. Durante questo periodo verrà data la possibilità di allenarsi solo in sala attrezzi e di utilizzare il termarium.",
+			"Divieto offerta servizi di Personal Trainer: è vietata l’offerta, a titolo oneroso o gratuito, di servizi di personal trainer o simili da parte di un abbonato nei confronti di un altro/i abbonato/i.",
+			"Mantieni in ordine e puliti attrezzature e accessori",
+			"Rispetta gli orari di inizio e fine lezione",
+			"Non è consentito l’utilizzo dei telefoni cellulari (da tenere in modalità silenziosa)",
+			"Utilizza la cuffia e fai la doccia prima di entrare in piscina",
+			"Nelle sale utilizza scarpe con suole pulite",
+			"Durante la fase di recupero non tenere gli attrezzi occupati",
+			"Utilizza un tergisudore in sala attrezzi e sala corsi",
+			"Utilizza un abbigliamento decoroso",
+			"Nel Termarium utilizza: telo grande o accappatoio, costume e ciabatte da lasciare fuori dalle tecnologie",
+			"Ogni **ARMADIETTO** dello spogliatoio è dotato di chiusura a combinazione (prima imposta la tua combinazione, poi chiudi l’armadietto e scombina i numeri inseriti) dopo l’utilizzo lascia libero e pulito l’armadietto.",
+			"Per gli oggetti di valore sono a disposizione delle **CASSETTE DI SICUREZZA** all’ingresso: richiedi la chiave in reception.",
+			"La Direzione non si assume la responsabilità di oggetti smarriti o abbandonati."
+		]
+	},
+	"nomiCorso": { "Strength Devel.": "Strength Development", "Funct. Training": "Functional Training", "Reformer": "Pilates Reformer" },
+	"aree": [
+		{ "id": "d", "titolo": "Dinamica", "corsi": ["Body Pump", "Strength Devel.", "Core", "Shapes", "Zumba", "Step"] },
+		{ "id": "a", "titolo": "Attiva", "corsi": ["Funct. Training", "Power Lifting", "TRX"] },
+		{ "id": "r", "titolo": "Respira", "corsi": ["Pilates", "Back School", "Balance", "Yoga"] },
+		{ "id": "q", "titolo": "Acqua", "corsi": ["Acqua Gym", "Acqua Bike"] },
+		{ "id": "f", "titolo": "Forma", "corsi": ["Reformer"] },
+		{ "id": "ride", "titolo": "Ride", "corsi": ["Group Cycling", "Technogym Ride"] }
+	]
+}

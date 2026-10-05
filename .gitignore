@@ -23,3 +23,6 @@ node_modules/
 
 # foto ottimizzate (generate da scripts/optimize-images.mjs)
 public/_img/
+
+# PDF degli orari: generato dai dati a ogni dev/build (scripts/genera-pdf-orari.mjs)
+public/orari-corsi-body-energie.pdf

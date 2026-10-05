@@ -4,7 +4,7 @@
 	"nome": "Pilates Matwork",
 	"seo": {
 		"title": "Pilates Matwork - Body Energie | Villafranca di Verona",
-		"description": "Rafforza il tuo corpo attraverso esercizi che aumentano il tono muscolare e migliorano la stabilità del core, contribuendo ad alleviare il mal di schiena.…"
+		"description": "Rafforza il tuo corpo attraverso esercizi che aumentano il tono muscolare e migliorano la stabilità del core, contribuendo ad alleviare il mal di schiena."
 	},
 	"hero": {
 		"titolo": "Pilates",
@@ -55,20 +55,6 @@
 					"valore": 35
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }

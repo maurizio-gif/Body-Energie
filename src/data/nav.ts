@@ -27,7 +27,7 @@ export const megaMenu: ColonnaMenu[] = [
 			{ label: 'Acqua Fitness', href: '/acqua' },
 			{ label: 'Pilates Reformer', href: '/pilates-reformer' },
 			{ label: 'Personal Training', href: '/personal-training' },
-			{ label: 'Termario', href: '/termario' },
+			{ label: 'Termarium', href: '/termario' },
 		],
 	},
 	{

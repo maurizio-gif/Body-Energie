@@ -4,7 +4,7 @@
 	"nome": "Technogym Ride",
 	"seo": {
 		"title": "Technogym Ride - Body Energie | Villafranca di Verona",
-		"description": "Con Technogym Ride l’indoor cycling diventa davvero smart! La geometria ispirata alle bici da strada e lo schermo integrato con app e sessioni di…"
+		"description": "Con Technogym Ride l’indoor cycling diventa davvero smart: geometria ispirata alle bici da strada e schermo integrato con app e sessioni di allenamento."
 	},
 	"hero": {
 		"titolo": "technogym",
@@ -55,20 +55,6 @@
 					"valore": 10
 				}
 			]
-		}
-	],
-	"faq": [
-		{
-			"domanda": "Ho bisogno del Certificato Medico?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho acquistato una lezione singola, cosa succede in caso di disdetta?",
-			"risposta": null
-		},
-		{
-			"domanda": "Ho un Abbonamento attivo, è necessaria la prenotazione?",
-			"risposta": null
 		}
 	]
 }
