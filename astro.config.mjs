@@ -21,6 +21,15 @@ if (!sitoProduzione) {
 const redirectWordpress = {
 	'/contatti/': '/',
 	'/body-energie-villafranca-di-verona/': '/',
+	// Indirizzi di sistema di WordPress/Yoast gia' noti a Google (sitemap inviate, feed, articolo di prova).
+	'/sitemap_index.xml': '/sitemap-index.xml',
+	'/wp-sitemap.xml': '/sitemap-index.xml',
+	'/page-sitemap.xml': '/sitemap-index.xml',
+	'/post-sitemap.xml': '/sitemap-index.xml',
+	'/hello-world/': '/',
+	'/category/uncategorized/': '/',
+	'/feed/': '/',
+	'/comments/feed/': '/',
 	'/personal-trainer-verona/': '/personal-training',
 	'/classes-list/': '/',
 	'/gallery/': '/',

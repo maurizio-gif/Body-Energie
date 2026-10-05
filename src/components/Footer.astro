@@ -1,6 +1,6 @@
 ---
 import { megaMenu, voceOrari } from '../data/nav';
-import { site, social, legalLinks, mapsEmbedSrc } from '../data/site';
+import { site, social, legalLinks, mapsEmbedSrc, mapsDirectionsUrl } from '../data/site';
 import { orari, orariEstivi } from '../data/orari';
 import { stats, formattaNumero } from '../data/stats';
 import Img from './Img.astro';
@@ -137,6 +137,21 @@ const colonneFoto = [
 					))
 				}
 			</div>
+
+			<ul class="find-us__contatti" data-anim="up" data-anim-delay="420">
+				<li>
+					<span>Indirizzo</span>
+					<a href={mapsDirectionsUrl} target="_blank" rel="noopener">{address}</a>
+				</li>
+				<li>
+					<span>Telefono</span>
+					<a href={site.phoneHref}>{site.phone}</a>
+				</li>
+				<li>
+					<span>Email</span>
+					<a href={`mailto:${site.email}`}>{site.email}</a>
+				</li>
+			</ul>
 
 			<div class="find-us__cta" data-anim="up" data-anim-delay="480">
 				<a class="btn btn--outline" href={voceOrari.href}>Orari corsi</a>
@@ -540,8 +555,8 @@ const colonneFoto = [
 	.find-us {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-		height: var(--screen-h);
-		min-height: 560px;
+		/* Alta una schermata, ma cresce se il contenuto (orari, contatti, pulsanti) e' piu' alto. */
+		min-height: max(var(--screen-h), 560px);
 		background: var(--bg);
 		color: var(--text);
 	}
@@ -650,6 +665,47 @@ const colonneFoto = [
 		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
 		color: var(--text);
+	}
+
+	/* Indirizzo, telefono ed email: visibili e cliccabili (mappa, chiamata, posta). */
+	.find-us__contatti {
+		display: grid;
+		gap: 10px;
+		margin: 28px 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.find-us__contatti li {
+		display: grid;
+		grid-template-columns: 6.5rem 1fr;
+		align-items: baseline;
+		gap: 12px;
+	}
+
+	.find-us__contatti span {
+		font-family: var(--font-heading);
+		font-size: var(--text-xs);
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: rgba(0, 0, 0, 0.62);
+	}
+
+	.find-us__contatti a {
+		font-family: var(--font-heading);
+		font-size: var(--text-sm);
+		font-weight: 700;
+		color: var(--text);
+		text-decoration: none;
+		overflow-wrap: anywhere;
+	}
+
+	.find-us__contatti a:hover,
+	.find-us__contatti a:focus-visible {
+		color: var(--accent-hover);
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 
 	.find-us__cta {
@@ -979,8 +1035,17 @@ const colonneFoto = [
 			padding: 8px 0;
 		}
 
-		.find-us__cta {
+		.find-us__contatti {
 			order: 5;
+			margin-top: 20px;
+		}
+
+		.find-us__contatti li {
+			grid-template-columns: 5.5rem 1fr;
+		}
+
+		.find-us__cta {
+			order: 6;
 			margin-top: 20px;
 		}
 	}
