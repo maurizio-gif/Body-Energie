@@ -724,8 +724,11 @@ const immagini = megaMenu.map((c) => (c.immagine ? imgSources(c.immagine) : null
 			padding: 0;
 		}
 
+		/* Blocco e non "inline": il padding verticale di un link inline non occupa spazio ma si sovrappone
+		   ai link vicini (i tocchi finivano sulla voce sbagliata). */
 		.hd__list li a {
-			padding: 9px 0;
+			display: block;
+			padding: 7px 0;
 			color: rgba(255, 255, 255, 0.78);
 			font-size: 0.95rem;
 			font-weight: 500;

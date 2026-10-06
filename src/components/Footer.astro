@@ -959,6 +959,8 @@ const colonneFoto = [
 	.ft-firma a {
 		display: block;
 		line-height: 0;
+		/* Il logo e' alto 16px: il margine interno rende il link facile da toccare (32px). */
+		padding-block: 8px;
 	}
 
 	.ft-firma img {
@@ -1047,6 +1049,30 @@ const colonneFoto = [
 		.find-us__cta {
 			order: 6;
 			margin-top: 20px;
+		}
+	}
+
+	/* Telefono e tablet: link del footer con un bersaglio di tocco di almeno 32px (erano 15-23px). */
+	@media (max-width: 900px) {
+		.ft-links {
+			gap: 4px;
+		}
+
+		.ft-links a,
+		.ft-links button,
+		.ft-legal a,
+		.find-us__contatti a {
+			display: inline-flex;
+			align-items: center;
+			min-height: 32px;
+		}
+
+		.ft-legal {
+			gap: 0 20px;
+		}
+
+		.ft-estivi summary {
+			padding-block: 6px;
 		}
 	}
 
