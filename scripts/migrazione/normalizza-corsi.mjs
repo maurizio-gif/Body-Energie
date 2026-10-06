@@ -100,7 +100,7 @@ for (const slug of CORSI) {
 		// Il vecchio sito non aveva titoli/descrizioni SEO personalizzati (solo i
 		// default di Yoast): questi sono generati col formato gia' usato su /sala-pesi.
 		seo: { title: `${nomePagina} - Body Energie | Villafranca di Verona`, description: descrizioneSeo },
-		hero: heroDa(hero),
+		hero: heroDa(hero, slug),
 		galleria,
 		blocchi,
 	};

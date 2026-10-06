@@ -234,7 +234,7 @@ for (const slug of SERVIZI) {
 		nome,
 		...(STILE[slug] ? { stile: STILE[slug] } : {}),
 		seo: seoDa(nome, primoTesto),
-		hero: { ...heroDa(el[0]), pulsanti: pulsantiHero(el[0], slug) },
+		hero: { ...heroDa(el[0], slug), pulsanti: pulsantiHero(el[0], slug) },
 		...(intro ? { intro } : {}),
 		percorsi,
 		blocchi,
@@ -291,7 +291,7 @@ for (const slug of SERVIZI) {
 		slug,
 		nome,
 		seo: seoDa(nome, introHtml),
-		hero: { ...heroDa(el[0]), pulsanti: pulsantiHero(el[0], slug) },
+		hero: { ...heroDa(el[0], slug), pulsanti: pulsantiHero(el[0], slug) },
 		intro: { titolo: strip(introWs.find((w) => w.widgetType === 'heading').settings.title), html: introHtml },
 		gruppi,
 	});

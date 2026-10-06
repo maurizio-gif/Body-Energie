@@ -71,7 +71,18 @@ export const etichetta = (s) => {
 // parole che ruotano (la prima si vede al caricamento). Il campo "highlighted_text"
 // ("Amazing") e' il segnaposto di default di Elementor e in questa modalita' non
 // viene mai mostrato: non va portato.
-export function heroDa(sezione) {
+// Foto hero scelte dopo la migrazione al posto di quelle del vecchio sito. Nel vecchio sito Yoga, Pilates
+// Matwork, Balance e Back School usavano la stessa foto (e Group Cycling e Technogym Ride la stessa):
+// ogni corso ha ora la sua. Chiave = indirizzo della pagina. Se si rigenerano le pagine da WordPress
+// queste restano (Yoga e Technogym Ride tengono la foto originale, che ora e' solo loro).
+export const HERO_SOSTITUTIVE = {
+	'back-school': '/wp-content/uploads/2025/08/BACK-SCHOOL-scaled-1-enjoy.jpg',
+	'balance-2': '/wp-content/uploads/2025/11/Body-Energie-Azioni-15-scaled.jpg',
+	'pilates-matwork': '/wp-content/uploads/2025/09/logan-weaver-lgnwvr-u76Gd0hP5w4-unsplash.jpg',
+	'group-cycling': '/wp-content/uploads/2025/08/groupcycling-min-scaled-1.jpg',
+};
+
+export function heroDa(sezione, slug) {
 	const ws = widgets(sezione);
 	const an = ws.find((w) => w.widgetType === 'animated-headline')?.settings || {};
 	const parole = String(an.rotating_text || '')
@@ -81,6 +92,6 @@ export function heroDa(sezione) {
 	return {
 		titolo: strip(an.before_text),
 		parole,
-		immagine: percorso(sezione.settings?.background_image?.url),
+		immagine: HERO_SOSTITUTIVE[slug] ?? percorso(sezione.settings?.background_image?.url),
 	};
 }
