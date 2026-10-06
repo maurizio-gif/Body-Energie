@@ -1,7 +1,7 @@
 ---
 /*
  * Hero di una pagina interna: foto a tutta larghezza con velo scuro, titolo grande
- * (con parole che ruotano, se sono piu' d'una) e i pulsanti passati come slot.
+ * (con parole che ruotano, se sono piu' d'una: ruotano a turno nello stesso punto) e i pulsanti passati come slot.
  * Va usata con <Layout headerTone="overlay">: la foto passa sotto l'header (fisso,
  * chiaro e un po' trasparente). Alta come la hero della home. Nessun sottotitolo.
  *
@@ -21,6 +21,11 @@ interface Props {
 }
 
 const { image, title, words = [], imageAlt = '' } = Astro.props;
+// Con piu' parole il titolo le fa ruotare. Nel codice resta solo la parola visibile in quel
+// momento (le altre le scrive lo script a turno): cosi' l'h1 e' "acqua fitness" e non
+// "acqua fitness gym bike". La parola piu' lunga tiene fissa la larghezza (vedi ::after).
+const ruota = words.length > 1;
+const piuLunga = [...words].sort((a, b) => b.length - a.length)[0] ?? '';
 ---
 
 <section class="ph">
@@ -33,15 +38,8 @@ const { image, title, words = [], imageAlt = '' } = Astro.props;
 				words.length > 0 && (
 					<>
 						{' '}
-						<span class="ph__rot" data-rot={words.length > 1 ? '' : undefined}>
-							{words.map((w, i) => (
-								<>
-									{i > 0 && ' '}
-									<span class:list={['ph__word', { 'is-on': i === 0 }]} aria-hidden={i === 0 ? undefined : 'true'}>
-										{w}
-									</span>
-								</>
-							))}
+						<span class="ph__rot" data-words={ruota ? JSON.stringify(words) : undefined} data-sizer={ruota ? piuLunga : undefined}>
+							<span class="ph__word">{words[0]}</span>
 						</span>
 					</>
 				)
@@ -89,11 +87,19 @@ const { image, title, words = [], imageAlt = '' } = Astro.props;
 		text-transform: uppercase;
 	}
 
-	/* Le parole che ruotano stanno tutte nella stessa cella: il titolo non cambia
-	   larghezza (e non scatta) quando una sostituisce l'altra. */
+	/* La parola che ruota sta in una cella larga quanto la parola piu' lunga (data-sizer,
+	   invisibile): il titolo non cambia larghezza (e non scatta) quando una sostituisce l'altra. */
 	.ph__rot {
 		display: inline-grid;
 		color: var(--accent-secondary);
+	}
+
+	.ph__rot[data-sizer]::after {
+		content: attr(data-sizer);
+		grid-area: 1 / 1;
+		height: 0;
+		overflow: hidden;
+		visibility: hidden;
 	}
 
 	.ph__word {
@@ -101,15 +107,13 @@ const { image, title, words = [], imageAlt = '' } = Astro.props;
 		text-align: left;
 	}
 
-	.ph__rot[data-rot] .ph__word {
-		opacity: 0;
-		transform: translateY(0.35em);
+	.ph__rot[data-words] .ph__word {
 		transition: opacity 0.5s ease, transform 0.6s var(--ease-out-crit);
 	}
 
-	.ph__rot[data-rot] .ph__word.is-on {
-		opacity: 1;
-		transform: none;
+	.ph__rot[data-words] .ph__word.is-out {
+		opacity: 0;
+		transform: translateY(0.35em);
 	}
 
 	/* Stessa altezza per <button> e <a>: l'interlinea predefinita e' diversa. */
@@ -154,17 +158,20 @@ const { image, title, words = [], imageAlt = '' } = Astro.props;
 </style>
 
 <script>
-	// Fa ruotare le parole del titolo; con "riduci movimento" resta la prima.
+	// Fa ruotare le parole del titolo (una alla volta); con "riduci movimento" resta la prima.
 	if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-		document.querySelectorAll<HTMLElement>('[data-rot]').forEach((rot) => {
-			const parole = [...rot.querySelectorAll<HTMLElement>('.ph__word')];
+		document.querySelectorAll<HTMLElement>('[data-words]').forEach((rot) => {
+			const parole: string[] = JSON.parse(rot.dataset.words ?? '[]');
+			const parola = rot.querySelector<HTMLElement>('.ph__word');
+			if (!parola || parole.length < 2) return;
 			let i = 0;
 			setInterval(() => {
-				parole[i].classList.remove('is-on');
-				parole[i].setAttribute('aria-hidden', 'true');
-				i = (i + 1) % parole.length;
-				parole[i].classList.add('is-on');
-				parole[i].removeAttribute('aria-hidden');
+				parola.classList.add('is-out');
+				window.setTimeout(() => {
+					i = (i + 1) % parole.length;
+					parola.textContent = parole[i];
+					parola.classList.remove('is-out');
+				}, 500);
 			}, 2800);
 		});
 	}

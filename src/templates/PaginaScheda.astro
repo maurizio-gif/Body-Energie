@@ -14,6 +14,8 @@ import CourseBlock from '../components/CourseBlock.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import IntroTitolo from '../components/IntroTitolo.astro';
 import IndiceAncore from '../components/IndiceAncore.astro';
+import AltriCorsi from '../components/AltriCorsi.astro';
+import PlanningSezione from '../components/PlanningSezione.astro';
 
 interface Pulsante {
 	testo: string;
@@ -103,7 +105,9 @@ const sfondoSenzaMedia = (i: number) =>
 					reverse={(i + scarto) % 2 === 1}
 					tone={(i + scarto) % 2 === 1 ? (arancio ? 'arancio' : 'soft') : 'dark'}
 					compatto={!pagina.intro && i === 0 && !!pagina.percorsi}
-				/>
+				>
+					<PlanningSezione slug={pagina.slug} blocco={i} titolo={blocco.titolo ?? pagina.nome} />
+				</CourseBlock>
 				{!pagina.intro && i === 0 && pagina.percorsi && (
 					<div class="percorsi">
 						{pagina.percorsi.titolo && (
@@ -120,6 +124,7 @@ const sfondoSenzaMedia = (i: number) =>
 		))
 	}
 
+	<AltriCorsi slug={pagina.slug} titolo={pagina.tipo === 'corso' ? 'Altri corsi' : 'Scopri anche'} />
 </Layout>
 
 <style>

@@ -30,6 +30,8 @@
   --accent: #ec740f;
   --accent-secondary: #ff9933;
   --accent-hover: #c25f0c;
+  /* Arancione per testo piccolo su fondi chiari (beige/bianco): contrasto 4,6:1 su #eeeae3. */
+  --accent-on-light: #a94f08;
   --accent-tint: rgba(236, 116, 15, 0.1);
 
   /* Tipografia: Montserrat ovunque, titoli e testo (su richiesta, niente Open Sans) */

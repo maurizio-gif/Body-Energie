@@ -10,6 +10,7 @@
  *
  *   <CourseBlock blocco={…} fallbackImage="/wp-content/uploads/…jpg" reverse />
  */
+import { idSezione } from '../lib/ancora';
 import Img from './Img.astro';
 import ImageSlider from './ImageSlider.astro';
 import SectionTitle from './SectionTitle.astro';
@@ -58,7 +59,7 @@ const descrizioneFoto = blocco.titolo ? `${blocco.titolo} - Body Energie, Villaf
 const arancio = tone === 'arancio';
 ---
 
-<section id={blocco.id ?? undefined} class:list={['cb', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto }]}>
+<section id={idSezione(blocco)} class:list={['cb', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto }]}>
 	<div class="cb__grid container-wide">
 		{
 			haMedia && (
@@ -165,10 +166,25 @@ const arancio = tone === 'arancio';
 			}
 		</div>
 	</div>
+
+	{
+		Astro.slots.has('default') && (
+			<div class="cb__planning container-wide">
+				<slot />
+			</div>
+		)
+	}
 </section>
 
 <style>
+	/* Contenuto sotto il blocco (gli orari del corso): resta dentro la stessa sezione, stesso sfondo. */
+	.cb__planning {
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+
 	.cb {
+		/* Se si arriva con un'ancora (es. da /orari) l'header fisso non copre il titolo. */
+		scroll-margin-top: var(--header-h);
 		padding-block: clamp(48px, 7vw, 96px);
 		background: var(--bg-dark);
 		color: var(--text-on-dark);

@@ -391,3 +391,29 @@ body.lf-locked {
     transition: none !important;
   }
 }
+
+/* ---- Categorie del planning (Dinamica, Attiva, Respira, Acqua, Forma) -------------------
+   Pallino colorato: lo stesso del planning originale. Usato da /orari e dai planning delle schede. */
+.dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c, #8a8a8a);
+}
+
+.cls--d {
+  --c: #e8720c;
+}
+.cls--a {
+  --c: #d9480f;
+}
+.cls--r {
+  --c: #3d9e45;
+}
+.cls--q {
+  --c: #1e8fd4;
+}
+.cls--f {
+  --c: #c9a020;
+}

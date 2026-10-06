@@ -1,0 +1,49 @@
+---
+/*
+ * Blocco in fondo alle schede: tre pagine consigliate (src/data/correlati.json) con le card
+ * delle attivita' (ActivityGrid), cosi' ogni pagina rimanda ad altre e il visitatore (e Google)
+ * trova subito i contenuti collegati. La foto di ogni card e' la hero della pagina consigliata.
+ */
+import SectionTitle from './SectionTitle.astro';
+import ActivityGrid from './ActivityGrid.astro';
+import correlati from '../data/correlati.json';
+
+interface Props {
+	/** Indirizzo della pagina corrente (es. "yoga"). */
+	slug: string;
+	/** Titolo del blocco: "Altri corsi" per i corsi, "Scopri anche" per servizi e attivita'. */
+	titolo?: string;
+}
+
+const { slug, titolo = 'Altri corsi' } = Astro.props;
+
+const schede = import.meta.glob('../data/pagine/*.json', { eager: true, import: 'default' }) as Record<string, any>;
+const perSlug: Record<string, any> = {};
+for (const s of Object.values(schede)) perSlug[s.slug] = s;
+
+const elenco = (correlati as Record<string, string[]>)[slug] ?? [];
+const items = elenco
+	.map((s) => perSlug[s])
+	.filter(Boolean)
+	.map((p) => ({ href: `/${p.slug}`, image: p.hero.immagine, title: p.nome }));
+---
+
+{
+	items.length > 0 && (
+		<section class="altri on-dark" aria-labelledby="altri-titolo">
+			<SectionTitle tone="dark-bg" gap={16}>
+				<span id="altri-titolo">{titolo}</span>
+			</SectionTitle>
+			<ActivityGrid items={items} columns={items.length} gapTop={28} />
+		</section>
+	)
+}
+
+<style>
+	/* Stessa struttura dei blocchi "Attivita'" della home: 56px sopra e sotto. */
+	.altri {
+		padding-block: 56px;
+		background: var(--bg-dark-soft);
+		color: var(--text-on-dark);
+	}
+</style>

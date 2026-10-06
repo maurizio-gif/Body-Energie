@@ -1,0 +1,469 @@
+---
+/*
+ * Planning settimanale a tab: i sette giorni, una riga per fascia oraria e le lezioni a destra
+ * (il template della pagina /orari, preso da Recomp360), con le frecce giorno precedente/successivo.
+ * Su telefono le lezioni vanno una per riga. Lo usano /orari (tutto il planning) e le sezioni delle
+ * schede (solo le lezioni di quell'attivita', vedi PlanningSezione.astro).
+ *
+ * Con piu' istanze nella stessa pagina ogni planning e' indipendente: gli id partono da `id` e lo
+ * script lavora su ogni [data-planning]. I giorni senza lezioni restano nei tab (attenuati) con un
+ * messaggio. Senza JavaScript i giorni si leggono uno dopo l'altro.
+ */
+import { nomiCategoria, type GiornoPlanning } from '../lib/planning';
+
+interface Props {
+	giorni: GiornoPlanning[];
+	/** Prefisso degli id (univoco nella pagina). */
+	id: string;
+	/** Lezione -> indirizzo della scheda. Se manca, le lezioni non sono link (siamo gia' nella scheda). */
+	collegamenti?: Record<string, string>;
+	/** Tab "sticky" sotto l'header mentre si scorre (solo pagina /orari, dove il riquadro e' alto). */
+	tabsFissi?: boolean;
+}
+
+const { giorni, id, collegamenti, tabsFissi = false } = Astro.props;
+---
+
+<div class:list={['day-schedule', { 'day-schedule--libero': !tabsFissi }]} data-planning>
+	<div class="day-tabs" role="tablist" aria-label="Giorno della settimana">
+		{
+			giorni.map((g, i) => (
+				<button
+					type="button"
+					role="tab"
+					class:list={['day-tab', { 'is-active': i === 0, 'is-vuoto': g.fasce.length === 0 }]}
+					id={`${id}-tab-${g.id}`}
+					aria-controls={`${id}-${g.id}`}
+					aria-selected={i === 0 ? 'true' : 'false'}
+					tabindex={i === 0 ? 0 : -1}
+					data-giorno={g.id}
+				>
+					<span aria-hidden="true">{g.id}</span>
+					<span class="sr-only">{g.nome}</span>
+				</button>
+			))
+		}
+	</div>
+
+	<div class="day-panels">
+		{
+			giorni.map((g, i) => (
+				<section class:list={['day-panel', { 'is-active': i === 0 }]} id={`${id}-${g.id}`} role="tabpanel" aria-labelledby={`${id}-tab-${g.id}`} data-giorno={g.id}>
+					<h3 class="day-panel__title">{g.nome}</h3>
+					{g.fasce.map(([ora, voci]) => (
+						<div class="slot">
+							<span class="slot__time">{ora}</span>
+							<ul class="slot__list">
+								{voci.map((v) => {
+									const href = collegamenti?.[v.nome];
+									const Tag = href ? 'a' : 'span';
+									return (
+										<li class={`cls cls--${v.cat}`} data-c={v.cat}>
+											<Tag class="cls__in" href={href} data-corso={href ? v.nome : undefined} aria-haspopup={href ? 'dialog' : undefined}>
+												<span class="dot" aria-hidden="true" />
+												<span class="cls__txt">
+													<span class="cls__name">{v.nome}</span>
+													<span class="cls__cat">{nomiCategoria[v.cat]}</span>
+												</span>
+												{v.nuovo && <span class="badge badge--new">★ New</span>}
+												{v.lesMills && <span class="badge">LM</span>}
+												{href && (
+													<svg class="cls__chev" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+														<polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+													</svg>
+												)}
+											</Tag>
+										</li>
+									);
+								})}
+							</ul>
+						</div>
+					))}
+					<p class="day-panel__empty" role="status" hidden={g.fasce.length > 0}>
+						Nessuna lezione in questo giorno.
+					</p>
+				</section>
+			))
+		}
+	</div>
+
+	<div class="sch-nav">
+		<button type="button" class="sch-nav__btn" data-prev aria-label="Giorno precedente">
+			<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+				<polyline points="15 18 9 12 15 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</button>
+		<span class="sch-nav__label" data-label aria-live="polite">{giorni[0].nome}</span>
+		<button type="button" class="sch-nav__btn" data-next aria-label="Giorno successivo">
+			<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+				<polyline points="9 18 15 12 9 6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</button>
+	</div>
+</div>
+
+<style>
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	/* Nelle schede il riquadro e' basso: i tab restano al loro posto invece di restare sotto l'header. */
+	.day-schedule--libero .day-tabs {
+		position: static;
+	}
+
+	/* Giorno senza lezioni (planning di una sola attivita'): tab attenuato, ma sempre raggiungibile. */
+	.day-tab.is-vuoto:not(.is-active) {
+		opacity: 0.45;
+	}
+
+	/* ---- Riquadro con tab, pannelli e frecce (come Recomp360) ---- */
+	.day-schedule {
+		border: 1px solid var(--border-on-dark);
+		border-right: 2px solid var(--accent);
+		border-bottom: 2px solid var(--accent);
+		border-radius: var(--radius);
+		/* clip e non hidden: tiene gli angoli arrotondati senza rompere i tab "sticky" */
+		overflow: clip;
+	}
+
+	/* Senza JavaScript i tab e le frecce non servono: si leggono tutti i giorni di fila. */
+	:global(html:not(.js)) .day-tabs,
+	:global(html:not(.js)) .sch-nav {
+		display: none;
+	}
+
+	.day-tabs {
+		position: sticky;
+		top: var(--header-h);
+		z-index: 5;
+		display: flex;
+		border-bottom: 2px solid var(--accent);
+		background: var(--bg-dark-soft);
+	}
+
+	.day-tab {
+		flex: 1;
+		min-width: 0;
+		min-height: 48px;
+		padding: 14px 4px;
+		border: 0;
+		border-right: 1px solid var(--border-on-dark);
+		background: var(--bg-dark-soft);
+		color: var(--text-muted-on-dark);
+		font: inherit;
+		font-size: 13px;
+		font-weight: 800;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: background var(--dur-base), color var(--dur-base);
+	}
+
+	.day-tab:last-child {
+		border-right: 0;
+	}
+
+	.day-tab:hover {
+		background: var(--bg-dark);
+		color: var(--text-on-dark);
+	}
+
+	.day-tab.is-active {
+		background: var(--accent);
+		color: var(--text);
+	}
+
+	.day-tab:focus-visible {
+		outline: 3px solid var(--text-on-dark);
+		outline-offset: -3px;
+	}
+
+	.day-panels {
+		background: var(--bg-dark);
+	}
+
+	:global(html.js) .day-panel:not(.is-active) {
+		display: none;
+	}
+
+	.day-panel__title {
+		margin: 0;
+		padding: 18px 20px 6px;
+		font-size: var(--text-lg);
+		font-weight: 900;
+		color: var(--text-on-dark);
+	}
+
+	/* Con JavaScript il nome del giorno lo dice il tab: il titolo resta per gli screen reader. */
+	:global(html.js) .day-panel__title {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.day-panel__empty {
+		margin: 0;
+		padding: 32px 20px;
+		text-align: center;
+		font-size: var(--text-sm);
+		font-style: italic;
+		color: var(--text-muted-on-dark);
+	}
+
+	/* display: grid/flex annullerebbe l'attributo hidden. */
+	.slot[hidden],
+	.cls[hidden],
+	.day-panel__empty[hidden] {
+		display: none;
+	}
+
+	/* ---- Una fascia oraria: l'ora a sinistra, le lezioni a destra ---- */
+	.slot {
+		display: grid;
+		grid-template-columns: 76px minmax(0, 1fr);
+		gap: 16px;
+		align-items: start;
+		padding: 14px 20px;
+		border-bottom: 1px solid var(--border-on-dark);
+		background: var(--bg-dark-soft);
+	}
+
+	.slot:nth-of-type(even) {
+		background: var(--bg-dark);
+	}
+
+	.slot__time {
+		padding-top: 10px;
+		font-size: var(--text-md);
+		font-weight: 900;
+		font-variant-numeric: tabular-nums;
+		color: var(--accent);
+	}
+
+	/* Desktop: le lezioni della stessa fascia in colonne uguali (5 in una riga), cosi' le righe
+	   restano ordinate anche con nomi di lunghezza diversa. */
+	.slot__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+		gap: 8px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.cls__in {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		min-height: 44px;
+		padding: 8px 14px;
+		border: 1px solid var(--border-on-dark);
+		border-radius: var(--radius);
+		background: rgba(255, 255, 255, 0.06);
+		color: var(--text-on-dark);
+		text-decoration: none;
+		transition: background var(--dur-base), border-color var(--dur-base);
+	}
+
+	a.cls__in:hover,
+	a.cls__in:focus-visible {
+		border-color: var(--c);
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	a.cls__in:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	.cls__txt {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 1px;
+		min-width: 0;
+	}
+
+	.cls__name {
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		line-height: 1.2;
+	}
+
+	.cls__cat {
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--text-muted-on-dark);
+	}
+
+	.cls__chev {
+		flex: none;
+		opacity: 0.5;
+	}
+
+	.badge {
+		padding: 1px 8px;
+		border-radius: var(--radius-pill);
+		background: rgba(255, 255, 255, 0.16);
+		font-size: 0.7rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.badge--new {
+		background: var(--accent);
+		color: var(--text);
+	}
+
+	/* ---- Frecce giorno precedente/successivo ---- */
+	.sch-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 12px 20px;
+		border-top: 1px solid var(--border-on-dark);
+		background: var(--bg-dark-soft);
+	}
+
+	.sch-nav__btn {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 44px;
+		height: 44px;
+		padding: 0;
+		border: 1px solid var(--border-on-dark);
+		border-radius: var(--radius);
+		background: var(--bg-dark);
+		color: var(--text-on-dark);
+		cursor: pointer;
+		transition: background var(--dur-base), border-color var(--dur-base);
+	}
+
+	.sch-nav__btn:hover {
+		border-color: var(--accent);
+		background: var(--accent);
+		color: var(--text);
+	}
+
+	.sch-nav__btn:disabled {
+		opacity: 0.25;
+		cursor: default;
+		pointer-events: none;
+	}
+
+	.sch-nav__btn:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	.sch-nav__label {
+		font-size: var(--text-sm);
+		font-weight: 800;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+
+	/* ---- Mobile: una colonna, le lezioni una per riga a tutta larghezza ---- */
+	@media (max-width: 900px) {
+		.slot {
+			grid-template-columns: 52px minmax(0, 1fr);
+			gap: 12px;
+			padding: 12px 14px;
+		}
+
+		/* Tablet: due colonne di lezioni. */
+		.slot__list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 6px;
+		}
+
+		.sch-nav {
+			padding: 10px 14px;
+		}
+	}
+
+	/* Sette tab in 360px: niente larghezze minime né spaziatura larga, cosi' stanno tutti. */
+	@media (max-width: 560px) {
+		.day-tab {
+			padding: 14px 0;
+			font-size: 11px;
+			letter-spacing: 1px;
+		}
+
+		.cls__cat {
+			display: none;
+		}
+
+		/* Telefono: una lezione per riga. */
+		.slot__list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>
+
+<script>
+	// Ogni planning della pagina e' indipendente: tab, frecce e giorno di partenza (oggi, o il primo
+	// giorno con lezioni se oggi non ce ne sono).
+	document.querySelectorAll<HTMLElement>('[data-planning]').forEach((radice) => {
+		const tab = [...radice.querySelectorAll<HTMLButtonElement>('.day-tab')];
+		const pannelli = [...radice.querySelectorAll<HTMLElement>('.day-panel')];
+		const prev = radice.querySelector<HTMLButtonElement>('[data-prev]')!;
+		const next = radice.querySelector<HTMLButtonElement>('[data-next]')!;
+		const etichetta = radice.querySelector<HTMLElement>('[data-label]')!;
+		const nomi = pannelli.map((p) => p.querySelector('.day-panel__title')?.textContent ?? '');
+		let corrente = 0;
+
+		function vaiAlGiorno(idx: number, spostaFocus = false) {
+			corrente = idx;
+			tab.forEach((t, i) => {
+				const on = i === idx;
+				t.classList.toggle('is-active', on);
+				t.setAttribute('aria-selected', String(on));
+				t.tabIndex = on ? 0 : -1;
+				if (on && spostaFocus) t.focus();
+			});
+			pannelli.forEach((p, i) => p.classList.toggle('is-active', i === idx));
+			etichetta.textContent = nomi[idx];
+			prev.disabled = idx === 0;
+			next.disabled = idx === tab.length - 1;
+		}
+
+		tab.forEach((t, i) => {
+			t.addEventListener('click', () => vaiAlGiorno(i));
+			t.addEventListener('keydown', (e) => {
+				const passo = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+				if (!passo) return;
+				e.preventDefault();
+				vaiAlGiorno((i + passo + tab.length) % tab.length, true);
+			});
+		});
+		prev.addEventListener('click', () => corrente > 0 && vaiAlGiorno(corrente - 1));
+		next.addEventListener('click', () => corrente < tab.length - 1 && vaiAlGiorno(corrente + 1));
+
+		// Si parte da oggi (getDay: 0 = domenica; i tab vanno da lunedi' a domenica), saltando i giorni senza lezioni.
+		const oggi = (new Date().getDay() + 6) % 7;
+		let partenza = oggi;
+		for (let k = 0; k < tab.length; k++) {
+			const idx = (oggi + k) % tab.length;
+			if (pannelli[idx].querySelector('.slot')) {
+				partenza = idx;
+				break;
+			}
+		}
+		vaiAlGiorno(partenza);
+	});
+</script>

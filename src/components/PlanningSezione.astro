@@ -1,0 +1,344 @@
+---
+/*
+ * Orari di una sezione di una scheda, in versione semplificata e a scomparsa: sotto il blocco che
+ * parla di un corso (es. Acqua Gym, Yoga) c'e' una barra sottile "Orari Yoga · 7 lezioni a
+ * settimana" che si apre al tocco e mostra, giorno per giorno, a che ora si fa. Chiusa occupa una
+ * riga, cosi' chi scorre solo per leggere non si trova davanti un planning intero.
+ * L'orario completo, con tab e filtri, e' sulla pagina /orari (pulsante "Vedi orario completo").
+ *
+ * Non ha dati suoi: le lezioni di ogni sezione si ricavano da src/data/orari-schede.json (quale
+ * lezione appartiene a quale blocco di quale scheda) e gli orari da src/data/orario-corsi.json,
+ * lo stesso file dell'orario completo: quando cambia l'orario, cambiano anche le schede.
+ * Se la sezione non ha lezioni nel planning (servizi, Technogym Ride) non mostra nulla.
+ * E' un <details>: si apre e si chiude anche da tastiera e funziona senza JavaScript.
+ */
+import schede from '../data/orari-schede.json';
+import orario from '../data/orario-corsi.json';
+import { giorniDelPlanning } from '../lib/planning';
+
+interface Props {
+	/** Indirizzo della scheda (es. "acqua"). */
+	slug: string;
+	/** Posizione del blocco nella scheda (0 = primo). */
+	blocco: number;
+	/** Nome della sezione per il titolo (titolo del blocco o nome della pagina). */
+	titolo: string;
+}
+
+const { slug, blocco, titolo } = Astro.props;
+
+const lezioni = Object.entries(schede as Record<string, { slug: string; blocco?: number }>)
+	.filter(([, v]) => v.slug === slug && (v.blocco ?? 0) === blocco)
+	.map(([nome]) => nome);
+
+const giorni = giorniDelPlanning(lezioni).filter((g) => g.fasce.length > 0);
+const totale = giorni.reduce((n, g) => n + g.fasce.reduce((m, [, voci]) => m + voci.length, 0), 0);
+
+// Con piu' lezioni nella stessa sezione (Reformer e Reformer Intro 30') l'orario dice anche quale:
+// la lezione "base" (il nome piu' corto) resta senza etichetta, l'altra mostra la differenza.
+const base = [...lezioni].sort((a, b) => a.length - b.length)[0] ?? '';
+const etichetta = (nome: string) => (lezioni.length > 1 && nome !== base ? nome.replace(base, '').trim() : '');
+const id = `pl-${slug}-${blocco}`;
+---
+
+{
+	totale > 0 && (
+		<div class="plan" role="group" aria-label={`Orari ${titolo}`}>
+			<details class="plan__acc">
+					<summary class="plan__sum">
+						<span class="plan__sum-testo">
+							<span class="plan__tit">Orari {titolo}</span>
+							<span class="plan__sub">
+								{totale} {totale === 1 ? 'lezione' : 'lezioni'} a settimana
+							</span>
+						</span>
+						<span class="plan__chev" aria-hidden="true">
+							<svg viewBox="0 0 24 24" width="22" height="22">
+								<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
+					</summary>
+
+					<div class="plan__corpo">
+						<ul class="plan__giorni" id={id}>
+							{giorni.map((g) => (
+								<li class="plan__giorno" data-giorno={g.id}>
+									<span class="plan__nome">
+										<span aria-hidden="true">{g.id}</span>
+										<span class="sr-only">{g.nome}</span>
+									</span>
+									<ul class="plan__ore">
+										{g.fasce.flatMap(([ora, voci]) =>
+											voci.map((v) => (
+												<li class="plan__ora">
+													<span class="plan__time">{ora}</span>
+													{etichetta(v.nome) && <span class="plan__lez">{etichetta(v.nome)}</span>}
+													{v.nuovo && <span class="plan__new">New</span>}
+												</li>
+											))
+										)}
+									</ul>
+								</li>
+							))}
+						</ul>
+
+						<div class="plan__piede">
+							<p class="plan__nota">
+								Stagione {orario.stagione} · {orario.validita.split('·')[0].trim()} · Gli orari possono subire variazioni
+							</p>
+							<a class="btn btn--light btn--sm" href="/orari">
+								Vedi orario completo
+							</a>
+						</div>
+					</div>
+			</details>
+		</div>
+	)
+}
+
+<style>
+	.plan {
+		color: var(--text-on-dark);
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+	}
+
+	.plan__acc {
+		border: 1px solid var(--border-on-dark);
+		border-radius: var(--radius);
+		/* Trasparente: prende lo sfondo del blocco (scuro o grigio) e resta leggibile su entrambi. */
+		background: rgba(255, 255, 255, 0.04);
+		transition: border-color var(--dur-base);
+	}
+
+	.plan__acc[open] {
+		border-color: var(--accent);
+	}
+
+	/* La barra chiusa: titolo e quante lezioni, con la freccia che indica che si apre. */
+	.plan__sum {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		min-height: 60px;
+		padding: 12px 20px;
+		list-style: none;
+		cursor: pointer;
+	}
+
+	.plan__sum::-webkit-details-marker {
+		display: none;
+	}
+
+	.plan__sum:focus-visible {
+		outline: 3px solid var(--accent);
+		outline-offset: 3px;
+		border-radius: var(--radius);
+	}
+
+	.plan__sum-testo {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 2px 14px;
+		min-width: 0;
+	}
+
+	.plan__tit {
+		font-family: var(--font-heading);
+		font-size: var(--text-md);
+		font-weight: 900;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+		color: var(--text-on-dark);
+	}
+
+	.plan__sub {
+		font-size: var(--text-sm);
+		font-weight: 600;
+		color: var(--text-muted-on-dark);
+	}
+
+	.plan__chev {
+		display: grid;
+		place-items: center;
+		flex: none;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.08);
+		color: var(--accent);
+		transition: transform 0.3s var(--ease-out-crit), background var(--dur-base);
+	}
+
+	.plan__sum:hover .plan__chev {
+		background: rgba(255, 255, 255, 0.16);
+	}
+
+	.plan__acc[open] .plan__chev {
+		transform: rotate(180deg);
+	}
+
+	/* Aperto: una riga per giorno (due colonne su schermo largo). */
+	.plan__corpo {
+		padding: 4px 20px 20px;
+		border-top: 1px solid var(--border-on-dark);
+	}
+
+	.plan__giorni {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 40px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.plan__giorno {
+		display: grid;
+		grid-template-columns: 3.4rem minmax(0, 1fr);
+		align-items: baseline;
+		gap: 12px;
+		padding: 10px 0;
+		border-bottom: 1px solid var(--border-on-dark);
+	}
+
+	.plan__nome {
+		font-family: var(--font-heading);
+		font-size: var(--text-xs);
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--text-muted-on-dark);
+	}
+
+	.plan__giorno.is-oggi .plan__nome {
+		color: var(--accent);
+	}
+
+	.plan__ore {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 14px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.plan__ora {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 6px;
+	}
+
+	.plan__time {
+		font-family: var(--font-heading);
+		font-size: var(--text-md);
+		font-weight: 800;
+		font-variant-numeric: tabular-nums;
+		color: var(--accent);
+	}
+
+	.plan__lez {
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--text-muted-on-dark);
+	}
+
+	.plan__new {
+		padding: 1px 7px;
+		border-radius: 999px;
+		background: var(--accent);
+		color: var(--text);
+		font-size: 0.62rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.plan__piede {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px 24px;
+		margin-top: 18px;
+	}
+
+	.plan__nota {
+		margin: 0;
+		font-size: var(--text-xs);
+		color: var(--text-muted-on-dark);
+	}
+
+	/* Apertura e chiusura morbide dove il browser lo permette (altrimenti si apre di colpo). */
+	@supports (interpolate-size: allow-keywords) {
+		.plan__acc {
+			interpolate-size: allow-keywords;
+		}
+
+		.plan__acc::details-content {
+			block-size: 0;
+			overflow: clip;
+			transition: block-size 0.35s var(--ease-out-crit), content-visibility 0.35s allow-discrete;
+		}
+
+		.plan__acc[open]::details-content {
+			block-size: auto;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.plan__chev,
+		.plan__acc::details-content {
+			transition: none;
+		}
+	}
+
+	/* Telefono e tablet: una colonna, barra e corpo piu' stretti. */
+	@media (max-width: 900px) {
+		.plan__sum {
+			min-height: 56px;
+			padding: 10px 16px;
+		}
+
+		.plan__corpo {
+			padding: 2px 16px 16px;
+		}
+
+		.plan__giorni {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.plan__giorno {
+			padding: 8px 0;
+		}
+
+		.plan__time {
+			font-size: var(--text-base);
+		}
+
+		.plan__piede {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+</style>
+
+<script>
+	// Evidenzia il giorno di oggi (getDay: 0 = domenica) nelle liste aperte.
+	const sigle = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
+	const oggi = sigle[new Date().getDay()];
+	document.querySelectorAll<HTMLElement>('.plan__giorno').forEach((g) => {
+		if (g.dataset.giorno === oggi) g.classList.add('is-oggi');
+	});
+</script>
