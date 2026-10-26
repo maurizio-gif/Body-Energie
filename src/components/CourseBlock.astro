@@ -26,6 +26,8 @@ interface Blocco {
 	immagini?: string[];
 	/** "contain" per i loghi: mostrati interi su fondo bianco invece di essere ritagliati. */
 	adattamento?: 'cover' | 'contain';
+	/** Logo (adattamento "contain") alto quanto il testo accanto, invece del riquadro 16:9: sezione piu' bassa. */
+	allineaAlTesto?: boolean;
 	dettagli: { testo: string; icona: string | null }[];
 	/** Riquadro di approfondimento sotto la descrizione (es. orari e modalita'). */
 	extra?: { titolo: string; html: string } | null;
@@ -59,7 +61,7 @@ const descrizioneFoto = blocco.titolo ? `${blocco.titolo} - Body Energie, Villaf
 const arancio = tone === 'arancio';
 ---
 
-<section id={idSezione(blocco)} class:list={['cb', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto }]}>
+<section id={idSezione(blocco)} class:list={['cb', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto, 'cb--logo-testo': !!blocco.allineaAlTesto }]}>
 	<div class="cb__grid container-wide">
 		{
 			haMedia && (
@@ -276,6 +278,40 @@ const arancio = tone === 'arancio';
 		padding: 6%;
 	}
 
+	/* Logo alto quanto il paragrafo: il riquadro bianco prende l'altezza del testo (niente 16:9),
+	   cosi' il logo e la sezione si rimpiccioliscono di conseguenza. Sotto i 900px, con foto e testo
+	   in colonna, il riquadro e' un rettangolo basso e largo. */
+	.cb--logo-testo .cb__grid {
+		align-items: stretch;
+	}
+
+	.cb--logo-testo .cb__media {
+		position: relative;
+		top: auto;
+		aspect-ratio: auto;
+		min-height: 7rem;
+	}
+
+	/* Il file del logo e' piccolo (300x84px): ingrandito sgranerebbe. Si mostra alla sua misura reale,
+	   al centro del riquadro bianco (che resta alto come il paragrafo). Su schermi stretti si riduce, mai oltre. */
+	.cb--logo-testo .cb__media :global(img) {
+		inset: 0;
+		margin: auto;
+		width: auto;
+		height: auto;
+		max-width: min(300px, 88%);
+		max-height: calc(100% - 20px);
+		padding: 0;
+		object-fit: contain;
+	}
+
+	@media (max-width: 900px) {
+		.cb--logo-testo .cb__media {
+			aspect-ratio: 16 / 6;
+			min-height: 0;
+		}
+	}
+
 	/* ---- Video / foto ---- */
 	/* Il testo e' piu' alto del video: il video resta agganciato sotto l'header
 	   mentre si legge. */
@@ -408,9 +444,11 @@ const arancio = tone === 'arancio';
 		margin-top: 32px;
 	}
 
+	/* Riquadri abbastanza larghi per la parola piu' lunga (ASCIUGAMANO, circa 117px a questo corpo):
+	   il carattere non si rimpicciolisce, si allarga il riquadro. Lo spazio tra i riquadri resta 12px. */
 	.cb__bring-list {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(9.25rem, 1fr));
 		gap: 12px;
 		margin: 0;
 		padding: 0;
@@ -422,7 +460,7 @@ const arancio = tone === 'arancio';
 		flex-direction: column;
 		align-items: center;
 		gap: 10px;
-		padding: 16px 8px;
+		padding: 16px 12px;
 		border-radius: var(--radius-lg);
 		background: var(--bg-dark-soft);
 		font-size: var(--text-xs);

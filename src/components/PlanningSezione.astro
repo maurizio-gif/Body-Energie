@@ -4,7 +4,7 @@
  * parla di un corso (es. Acqua Gym, Yoga) c'e' una barra sottile "Orari Yoga · 7 lezioni a
  * settimana" che si apre al tocco e mostra, giorno per giorno, a che ora si fa. Chiusa occupa una
  * riga, cosi' chi scorre solo per leggere non si trova davanti un planning intero.
- * L'orario completo, con tab e filtri, e' sulla pagina /orari (pulsante "Vedi orario completo").
+ * L'orario completo, con tab e filtri, e' sulla pagina /orari (link "Vedi orario completo").
  *
  * Non ha dati suoi: le lezioni di ogni sezione si ricavano da src/data/orari-schede.json (quale
  * lezione appartiene a quale blocco di quale scheda) e gli orari da src/data/orario-corsi.json,
@@ -13,7 +13,6 @@
  * E' un <details>: si apre e si chiude anche da tastiera e funziona senza JavaScript.
  */
 import schede from '../data/orari-schede.json';
-import orario from '../data/orario-corsi.json';
 import { giorniDelPlanning } from '../lib/planning';
 
 interface Props {
@@ -82,14 +81,7 @@ const id = `pl-${slug}-${blocco}`;
 							))}
 						</ul>
 
-						<div class="plan__piede">
-							<p class="plan__nota">
-								Stagione {orario.stagione} · {orario.validita.split('·')[0].trim()} · Gli orari possono subire variazioni
-							</p>
-							<a class="btn btn--light btn--sm" href="/orari">
-								Vedi orario completo
-							</a>
-						</div>
+						<a class="plan__link" href="/orari">Vedi orario completo</a>
 					</div>
 			</details>
 		</div>
@@ -265,19 +257,24 @@ const id = `pl-${slug}-${blocco}`;
 		text-transform: uppercase;
 	}
 
-	.plan__piede {
-		display: flex;
-		flex-wrap: wrap;
+	/* "Vedi orario completo": una semplice scritta sottolineata, non un pulsante. */
+	.plan__link {
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 12px 24px;
-		margin-top: 18px;
+		min-height: 32px;
+		margin-top: 12px;
+		font-size: var(--text-sm);
+		font-weight: 700;
+		color: var(--text-on-dark);
+		text-decoration: underline;
+		text-underline-offset: 4px;
+		text-decoration-thickness: 1.5px;
+		transition: color var(--dur-base);
 	}
 
-	.plan__nota {
-		margin: 0;
-		font-size: var(--text-xs);
-		color: var(--text-muted-on-dark);
+	.plan__link:hover,
+	.plan__link:focus-visible {
+		color: var(--accent);
 	}
 
 	/* Apertura e chiusura morbide dove il browser lo permette (altrimenti si apre di colpo). */
@@ -325,11 +322,6 @@ const id = `pl-${slug}-${blocco}`;
 
 		.plan__time {
 			font-size: var(--text-base);
-		}
-
-		.plan__piede {
-			flex-direction: column;
-			align-items: flex-start;
 		}
 	}
 </style>

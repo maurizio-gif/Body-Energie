@@ -25,6 +25,9 @@
 }
 
 html {
+  /* Niente riquadro celeste che i browser mobili mostrano quando si tocca un link o un pulsante:
+     il feedback del tocco lo danno gli stati :active (vedi .btn e le card). */
+  -webkit-tap-highlight-color: transparent;
   /* Sotto l'header fisso: anchor (#id) e focus da tastiera non finiscono nascosti. */
   scroll-padding-top: var(--header-h);
   /* Gli elementi che entrano da destra (data-anim) partono traslati oltre
@@ -165,6 +168,20 @@ a {
 .btn:hover {
   color: var(--btn-hover-text);
   transform: scale(1.05);
+}
+
+/* Feedback del tocco sul telefono (senza il riquadro celeste del browser): il pulsante si schiaccia. */
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Link, pulsanti e righe cliccabili: tocco senza selezione del testo e senza ritardo del doppio tap. */
+a,
+button,
+summary,
+[role='button'],
+[role='tab'] {
+  touch-action: manipulation;
 }
 
 .btn:hover::before {

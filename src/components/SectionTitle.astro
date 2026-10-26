@@ -6,6 +6,9 @@
  *
  *   <SectionTitle accent="per adulti" tone="dark-bg">Attività</SectionTitle>
  *
+ * Con lo slot "lato" una breve scritta (non grassetto, stesso colore del titolo) sta a fianco del
+ * titolo, sulla stessa riga; se non c'e' spazio va a capo sotto.
+ *
  * Il componente occupa tutta la larghezza della sezione e rispetta lo stesso
  * margine laterale di .container-wide (--gutter), quindi va messo direttamente
  * nella sezione, non dentro un .container-wide.
@@ -37,7 +40,7 @@ const line = flush && lineProp === 'edge' ? 'text' : lineProp;
 const titleAnim = accent ? undefined : align === 'right' ? 'from-right' : 'from-left';
 ---
 
-<div class:list={['st', `st--${align}`, `st--${tone}`, `st--line-${line}`, { 'st--flush': flush }]} style={`--st-gap:${gap}px`}>
+<div class:list={['st', `st--${align}`, `st--${tone}`, `st--line-${line}`, { 'st--flush': flush, 'st--lato': Astro.slots.has('lato') }]} style={`--st-gap:${gap}px`}>
 	<div class="st__inner">
 		<Tag class="st__title" data-anim={titleAnim}>
 			<slot />
@@ -54,6 +57,13 @@ const titleAnim = accent ? undefined : align === 'right' ? 'from-right' : 'from-
 		</Tag>
 		{line !== 'none' && <span class="st__line" data-anim="line" aria-hidden="true" />}
 	</div>
+	{
+		Astro.slots.has('lato') && (
+			<p class="st__lato">
+				<slot name="lato" />
+			</p>
+		)
+	}
 </div>
 
 <style>
@@ -66,6 +76,25 @@ const titleAnim = accent ? undefined : align === 'right' ? 'from-right' : 'from-
 
 	.st--flush {
 		padding-inline: 0;
+	}
+
+	/* Titolo e scritta a fianco sulla stessa riga (allineati sulla base del testo del titolo). */
+	.st--lato {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		column-gap: 28px;
+	}
+
+	/* Occupa lo spazio rimasto accanto al titolo (anche su due righe); va sotto solo se restano meno di ~17rem. */
+	.st__lato {
+		flex: 1 1 17rem;
+		min-width: 0;
+		margin: 0;
+		font-size: var(--text-sm);
+		font-weight: 400;
+		letter-spacing: 0.02em;
+		color: var(--st-color);
 	}
 
 	.st--light-bg {

@@ -33,7 +33,8 @@
 			"extra": null,
 			"portareTitolo": null,
 			"portare": [],
-			"intensita": []
+			"intensita": [],
+			"allineaAlTesto": true
 		},
 		{
 			"id": null,

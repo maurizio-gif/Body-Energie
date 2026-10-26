@@ -161,6 +161,7 @@ function blocco(sez) {
 const valido = (b) => b.titolo || b.descrizioneHtml || b.immagini.length || b.video;
 
 // ---- Pagine servizio ------------------------------------------------------
+const BLOCCHI_LOGO_ALLINEATO = { ciclismo: [0] };
 const SERVIZI = ['sala-pesi', 'personal-training', 'termario', 'nuoto-bimbi', 'body-camp', 'ciclismo', 'centro-estetico', 'body-lab'];
 const indice = [];
 
@@ -226,6 +227,8 @@ for (const slug of SERVIZI) {
 		blocchi = resto;
 	}
 
+	// Blocchi con il logo alto quanto il paragrafo (vedi CourseBlock, allineaAlTesto).
+	for (const i of BLOCCHI_LOGO_ALLINEATO[slug] ?? []) if (blocchi[i]) blocchi[i].allineaAlTesto = true;
 	const nome = NOMI[slug];
 	const primoTesto = intro?.html ?? blocchi.find((b) => b.descrizioneHtml)?.descrizioneHtml ?? '';
 	const pagina = {
