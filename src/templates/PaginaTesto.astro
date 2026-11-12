@@ -22,7 +22,7 @@ const { pagina } = Astro.props;
 ---
 
 <Layout title={pagina.seo.title} description={pagina.seo.description} breadcrumb={pagina.nome}>
-	<article class="testo on-dark">
+	<article class="testo sfuma on-dark" style="--da:var(--bg-dark);--a:var(--accent)">
 		<SectionTitle as="h1" tone="dark-bg" gap={40}>{pagina.titolo}</SectionTitle>
 		<div class="testo__corpo container-wide">
 			<div class="testo__prosa" set:html={pagina.html} />
@@ -38,8 +38,9 @@ const { pagina } = Astro.props;
 </Layout>
 
 <style>
+	/* In fondo il nero sfuma nell'arancione della CTA del footer (gli ultimi 40px del padding). */
 	.testo {
-		padding-block: clamp(40px, 6vw, 80px);
+		padding-block: clamp(40px, 6vw, 80px) calc(clamp(40px, 6vw, 80px) + var(--sez-sfumo));
 		background: var(--bg-dark);
 		color: var(--text-on-dark);
 	}

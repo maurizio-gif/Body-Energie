@@ -13,13 +13,13 @@ const strade = [
 ---
 
 <Layout title="Pagina non trovata - Body Energie" description="La pagina che cerchi non esiste o è stata spostata." noindex>
-	<section class="nf on-dark">
+	<section class="nf sfuma on-dark" style="--da:var(--bg-dark);--a:var(--accent)">
 		<div class="nf__in">
 			<p class="nf__code">404</p>
 			<h1 class="display-title nf__title">Pagina non trovata</h1>
 			<p class="nf__lead">La pagina che cerchi non esiste o è stata spostata. Da qui puoi ripartire:</p>
 			<div class="nf__azioni">
-				{strade.map((s, i) => <a class:list={['btn', { 'btn--outline': i > 0 }]} href={s.href}>{s.testo}</a>)}
+				{strade.map((s, i) => <a class:list={['btn', i === 0 ? 'btn--pillola btn--pillola-chiara' : 'btn--light']} href={s.href}>{s.testo}</a>)}
 			</div>
 		</div>
 	</section>
@@ -32,7 +32,8 @@ const strade = [
 		min-height: calc(100svh - var(--header-h));
 		display: grid;
 		place-items: center;
-		padding: 64px 24px;
+		/* In fondo il nero sfuma nell'arancione della CTA del footer (gli ultimi 40px). */
+		padding: 64px 24px calc(64px + var(--sez-sfumo));
 		text-align: center;
 	}
 	.nf__in {

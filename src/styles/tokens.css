@@ -70,6 +70,15 @@
      bordo incluso); con l'hamburger (<= 900px): 61px. Se si cambia l'header, rimisurare. */
   --header-h: 74px;
   --screen-h: calc(100vh - var(--header-h));
+
+  /* Spazi tra le sezioni: 112px tra i contenuti di due sezioni consecutive = 56 di padding in fondo
+     + 56 in cima. Dove il colore cambia c'e' lo sfumo (.sfuma in global.css): 36 pieni + 40 di
+     sfumo in fondo (76) e 36 pieni in cima alla successiva. Le sezioni leggono --sez-pt / --sez-pb
+     (vedi ".sez" in global.css). */
+  --sez-pad: 56px;
+  --sez-sfumo: 40px;
+  --sez-sopra-sfumo: 36px;
+  --sez-sotto-sfumo: 76px;
 }
 
 /* Altezza utile = schermo meno header; svh evita i salti della barra URL

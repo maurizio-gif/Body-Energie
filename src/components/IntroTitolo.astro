@@ -10,13 +10,18 @@ interface Props {
 	titolo: string;
 	/** Testo gia' ripulito (paragrafi, grassetti). */
 	html: string;
+	/** Colore (CSS) della sezione che segue, se diverso dal nero: in fondo c'e' lo sfumo verso di lui. */
+	sfumoA?: string;
 }
 
-const { titolo, html } = Astro.props;
+const { titolo, html, sfumoA } = Astro.props;
 const conExtra = Astro.slots.has('default');
 ---
 
-<section class:list={['intro', 'on-dark', { 'intro--extra': conExtra }]}>
+<section
+	class:list={['intro', 'sez', 'on-dark', { 'intro--extra': conExtra, sfuma: !!sfumoA }]}
+	style={sfumoA ? `--da:var(--bg-dark);--a:${sfumoA}` : undefined}
+>
 	<div class="intro__grid container-wide">
 		<h2 class="intro__title display-title" data-anim="from-left">{titolo}</h2>
 		<div class="intro__col">
@@ -34,7 +39,7 @@ const conExtra = Astro.slots.has('default');
 
 <style>
 	.intro {
-		padding-block: clamp(48px, 7vw, 96px);
+		padding-block: var(--sez-pt) var(--sez-pb);
 		background: var(--bg-dark);
 		color: var(--text-on-dark);
 	}
@@ -42,7 +47,7 @@ const conExtra = Astro.slots.has('default');
 	/* I link dell'indice sono alti 44px con il testo al centro: si toglie quello spazio
 	   interno cosi' sotto l'indice resta lo stesso vuoto che c'e' sopra il titolo. */
 	.intro--extra {
-		padding-bottom: calc(clamp(48px, 7vw, 96px) - 10px);
+		padding-bottom: calc(var(--sez-pb) - 10px);
 	}
 
 	.intro__grid {

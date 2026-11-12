@@ -70,6 +70,16 @@ const piuLunga = [...words].sort((a, b) => b.length - a.length)[0] ?? '';
 		color: var(--text-on-dark);
 	}
 
+	/* In fondo la foto sfuma nel nero della sezione che segue (sotto il testo, che ha z-index 1). */
+	.ph::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0 0;
+		height: 72px;
+		background: linear-gradient(to bottom, transparent, var(--bg-dark));
+		pointer-events: none;
+	}
+
 	.ph__overlay {
 		position: absolute;
 		inset: 0;

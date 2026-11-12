@@ -47,9 +47,13 @@ interface Props {
 	/** Sfondo: "dark" nero, "soft" grigio scuro, "arancio" arancione con testo nero
 	 *  (per alternare i blocchi). */
 	tone?: 'dark' | 'soft' | 'arancio';
+	/** Colore della sezione che segue, se diverso dal proprio: in fondo al blocco c'e' lo sfumo. */
+	sfumoA?: 'nero' | 'arancio';
+	/** La sezione che precede finisce con uno sfumo: meno spazio in cima (36px pieni). */
+	dopoSfumo?: boolean;
 }
 
-const { blocco, fallbackImage, reverse = false, tone = 'dark', compatto = false } = Astro.props;
+const { blocco, fallbackImage, reverse = false, tone = 'dark', compatto = false, sfumoA, dopoSfumo = false } = Astro.props;
 const mediaAnim = reverse ? 'from-right' : 'from-left';
 const textAnim = reverse ? 'from-left' : 'from-right';
 
@@ -59,9 +63,17 @@ const nomeMedia = blocco.titolo ?? 'della pagina';
 // Descrizione per le foto (utile anche alla ricerca per immagini): solo se il blocco ha un titolo.
 const descrizioneFoto = blocco.titolo ? `${blocco.titolo} - Body Energie, Villafranca di Verona` : undefined;
 const arancio = tone === 'arancio';
+// Sfumo in fondo: dal colore del blocco a quello della sezione che segue (solo se cambia).
+const coloreBlocco = arancio ? 'var(--accent)' : tone === 'soft' ? 'var(--bg-dark-soft)' : 'var(--bg-dark)';
+const coloreSuccessivo = sfumoA === 'arancio' ? 'var(--accent)' : 'var(--bg-dark)';
+const sfumo = !!sfumoA && !compatto && coloreBlocco !== coloreSuccessivo;
 ---
 
-<section id={idSezione(blocco)} class:list={['cb', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto, 'cb--logo-testo': !!blocco.allineaAlTesto }]}>
+<section
+	id={idSezione(blocco)}
+	class:list={['cb', 'sez', { 'on-dark': !arancio }, `cb--${tone}`, { 'cb--reverse': reverse, 'cb--solo': !haMedia, 'cb--compatto': compatto, 'cb--logo-testo': !!blocco.allineaAlTesto, sfuma: sfumo, 'dopo-sfumo': dopoSfumo }]}
+	style={sfumo ? `--da:${coloreBlocco};--a:${coloreSuccessivo}` : undefined}
+>
 	<div class="cb__grid container-wide">
 		{
 			haMedia && (
@@ -187,7 +199,7 @@ const arancio = tone === 'arancio';
 	.cb {
 		/* Se si arriva con un'ancora (es. da /orari) l'header fisso non copre il titolo. */
 		scroll-margin-top: var(--header-h);
-		padding-block: clamp(48px, 7vw, 96px);
+		padding-block: var(--sez-pt, clamp(48px, 7vw, 96px)) var(--sez-pb, clamp(48px, 7vw, 96px));
 		background: var(--bg-dark);
 		color: var(--text-on-dark);
 	}
@@ -252,7 +264,7 @@ const arancio = tone === 'arancio';
 	/* Senza media: una sola colonna di testo a misura di lettura, allineata a sinistra
 	   come il resto della pagina (stesso margine dei titoli e dei blocchi con foto). */
 	.cb--solo {
-		padding-block: clamp(32px, 4vw, 56px);
+		padding-block: var(--sez-pt, clamp(32px, 4vw, 56px)) var(--sez-pb, clamp(32px, 4vw, 56px));
 	}
 
 	.cb--solo .cb__grid {

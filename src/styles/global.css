@@ -210,6 +210,96 @@ summary,
   font-size: 18px;
 }
 
+/* Pillola: il bottone principale (CTA). Nera con testo arancione sui fondi arancioni; nelle hero e
+   sui fondi neri e' arancione con testo nero (classe .btn--pillola-chiara, o le regole delle hero).
+   Un lampo di luce la attraversa a intervalli e un'onda si espande dal bordo (colore: --onda). */
+.btn--pillola {
+  --btn-border: var(--bg-dark-deep);
+  --btn-hover-text: var(--accent);
+  --onda: rgba(10, 10, 10, 0.35);
+  --lampo: rgba(236, 116, 15, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 18px 32px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-dark-deep);
+  color: var(--accent);
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 12px 24px -10px rgba(0, 0, 0, 0.6),
+    0 0 0 0 var(--onda);
+  animation: pillola-onda 3s ease-out infinite;
+}
+
+/* Variante arancione con testo nero (contrasto 7,6:1; il bianco sull'arancione non basta). */
+.btn--pillola-chiara {
+  --btn-border: var(--accent);
+  --btn-hover-text: var(--text);
+  --onda: rgba(236, 116, 15, 0.45);
+  --lampo: rgba(255, 255, 255, 0.6);
+  background: var(--accent);
+  color: var(--text);
+}
+
+.btn--pillola.btn--lg {
+  padding: 20px 40px;
+  font-size: 18px;
+}
+
+/* Il riempimento in hover parte dal bordo sinistro della pillola: stesso raggio. */
+.btn--pillola::before {
+  border-radius: inherit;
+}
+
+.btn--pillola::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, var(--lampo), transparent);
+  transform: skewX(-20deg);
+  animation: pillola-lampo 3.6s ease-in-out 1s infinite;
+  pointer-events: none;
+}
+
+@keyframes pillola-onda {
+  0% {
+    box-shadow:
+      0 12px 24px -10px rgba(0, 0, 0, 0.6),
+      0 0 0 0 var(--onda);
+  }
+  70%,
+  100% {
+    box-shadow:
+      0 12px 24px -10px rgba(0, 0, 0, 0.6),
+      0 0 0 16px transparent;
+  }
+}
+
+@keyframes pillola-lampo {
+  0%,
+  55% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+@media (max-width: 560px) {
+  .btn--pillola.btn--lg {
+    padding: 18px 28px;
+    font-size: 17px;
+    white-space: normal;
+  }
+}
+
 /* ---- Pillola (etichetta sopra ai titoli) -------------------------------- */
 .pill {
   display: inline-block;
@@ -309,6 +399,58 @@ body.lf-locked {
   border-top-color: var(--bg-dark-deep);
 }
 
+/* ---- Sfumo tra una sezione e la successiva ------------------------------
+   Occupa gli ultimi 40px del padding in fondo alla sezione (--da = suo colore, --a = colore della
+   successiva). Dove il colore non cambia non serve. Con ".sfuma-su" lo stesso sfumo sta in cima
+   (da --da-su a --a-su). */
+.sfuma,
+.sfuma-su {
+  position: relative;
+}
+
+.sfuma {
+  --sez-pb: var(--sez-sotto-sfumo);
+}
+
+.sfuma::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: var(--sez-sfumo);
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--da), var(--a));
+}
+
+.sfuma-su::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: var(--sez-sfumo);
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--da-su), var(--a-su));
+}
+
+/* ---- Spazi delle sezioni -------------------------------------------------
+   Le sezioni (classe ".sez") leggono il padding da --sez-pt / --sez-pb: 56 + 56 = 112px tra i
+   contenuti; con lo sfumo 36 + 40 + 36 (".sfuma" in fondo alla sezione che finisce, ".dopo-sfumo"
+   in cima a quella che segue). Ogni sezione usa le due variabili nel proprio padding. */
+.sez {
+  --sez-pt: var(--sez-pad);
+  --sez-pb: var(--sez-pad);
+}
+
+.sez.sfuma {
+  --sez-pb: var(--sez-sotto-sfumo);
+}
+
+.sez.dopo-sfumo {
+  --sez-pt: var(--sez-sopra-sfumo);
+}
+
+.sez.sfuma-su {
+  --sez-pt: var(--sez-sotto-sfumo);
+}
+
 /* Pagine con header pieno (senza hero scura): il contenuto parte sotto l'header. */
 .main--offset {
   padding-top: var(--header-h);
@@ -406,6 +548,18 @@ body.lf-locked {
     transform: none !important;
     clip-path: none !important;
     transition: none !important;
+  }
+
+  /* Oltre alle entrate (data-anim) spegne ogni altra transizione o animazione continua dei
+     componenti (tendine, bottoni, lampo e onda delle pillole, caroselli...). */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
   }
 }
 

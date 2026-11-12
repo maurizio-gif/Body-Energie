@@ -1,6 +1,6 @@
 ---
 import { megaMenu, voceOrari } from '../data/nav';
-import { site, social, legalLinks, mapsEmbedSrc, mapsDirectionsUrl } from '../data/site';
+import { site, social, legalLinks, mapsEmbedSrc } from '../data/site';
 import { orari, orariEstivi } from '../data/orari';
 import { stats, formattaNumero } from '../data/stats';
 import Img from './Img.astro';
@@ -92,7 +92,7 @@ const colonneFoto = [
 			</ul>
 
 			<div class="cta-final__actions" data-anim="up" data-anim-delay="760">
-				<button class="btn btn--light btn--lg cta-final__btn" type="button" data-open-contact data-interest="prova-gratuita">
+				<button class="btn btn--pillola btn--lg cta-final__btn" type="button" data-open-contact data-interest="prova-gratuita">
 					Attiva ora <span class="cta-final__btn-arrow" aria-hidden="true">→</span>
 				</button>
 			</div>
@@ -115,8 +115,7 @@ const colonneFoto = [
 
 	<section class="find-us" aria-labelledby="find-us-title">
 		<div class="find-us__content">
-			<p class="pill find-us__eyebrow" data-anim="pop">Dove siamo</p>
-			<h2 class="display-title find-us__title" id="find-us-title" data-anim="up" data-anim-delay="120">
+			<h2 class="display-title find-us__title" id="find-us-title" data-anim="up">
 				Vieni a <span class="find-us__title-accent">trovarci</span>
 			</h2>
 
@@ -138,28 +137,13 @@ const colonneFoto = [
 				}
 			</div>
 
-			<ul class="find-us__contatti" data-anim="up" data-anim-delay="420">
-				<li>
-					<span>Indirizzo</span>
-					<a href={mapsDirectionsUrl} target="_blank" rel="noopener">{address}</a>
-				</li>
-				<li>
-					<span>Telefono</span>
-					<a href={site.phoneHref}>{site.phone}</a>
-				</li>
-				<li>
-					<span>Email</span>
-					<a href={`mailto:${site.email}`}>{site.email}</a>
-				</li>
-			</ul>
-
-			<div class="find-us__cta" data-anim="up" data-anim-delay="480">
+			<div class="find-us__cta" data-anim="up" data-anim-delay="420">
 				<a class="btn btn--outline" href={voceOrari.href}>Orari corsi</a>
 				<button class="btn" type="button" data-open-contact data-interest="informazioni">Contattaci</button>
 			</div>
 		</div>
 
-		<div class="find-us__map" data-anim="from-left">
+		<div class="find-us__map" data-anim="from-right">
 			<iframe
 				src={mapsEmbedSrc}
 				title={`Mappa - Body Energie, ${address}`}
@@ -391,13 +375,10 @@ const colonneFoto = [
 		margin-top: 32px;
 	}
 
-	/* Colore e taglia: .btn--light .btn--lg (globali). Qui solo freccia e anello pulsante. */
+	/* Colore, taglia, onda e lampo: .btn--pillola .btn--lg (globali). Qui solo la freccia. */
 	.cta-final__btn {
-		display: inline-flex;
-		align-items: center;
 		gap: 14px;
 		letter-spacing: 0.04em;
-		animation: cta-pulse 2.4s ease-out infinite;
 	}
 
 	.cta-final__btn-arrow {
@@ -407,18 +388,6 @@ const colonneFoto = [
 
 	.cta-final__btn:hover .cta-final__btn-arrow {
 		transform: translateX(6px);
-	}
-
-	/* Anello che si espande intorno al bottone: attira l'occhio sulla CTA
-	   senza muovere il bottone stesso. */
-	@keyframes cta-pulse {
-		0% {
-			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
-		}
-		70%,
-		100% {
-			box-shadow: 0 0 0 16px rgba(255, 255, 255, 0);
-		}
 	}
 
 	/* Tre colonne verticali di foto: quella centrale scorre al contrario.
@@ -474,7 +443,6 @@ const colonneFoto = [
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.cta-final__btn,
 		.cta-final__track {
 			animation: none;
 		}
@@ -547,35 +515,27 @@ const colonneFoto = [
 		}
 	}
 
-	/* --- "Dove siamo": mappa + info + cta --- */
-	/* Stessa struttura della CTA sopra: alta una schermata (al netto
-	   dell'header fisso), ma speculare: mappa a sinistra, testo a destra,
-	   su fondo bianco. Nel codice il testo resta prima della mappa, cosi'
-	   su mobile sta sopra. */
+	/* --- "Dove siamo": mappa + orari + cta --- */
+	/* Testo a sinistra, mappa a destra, su fondo bianco. Alta quanto il contenuto (titolo, orari,
+	   pulsanti): la mappa si allinea a quell'altezza. */
 	.find-us {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-		/* Alta una schermata, ma cresce se il contenuto (orari, contatti, pulsanti) e' piu' alto. */
-		min-height: max(var(--screen-h), 560px);
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
 		background: var(--bg);
 		color: var(--text);
 	}
 
 	.find-us__content {
-		grid-column: 2;
+		grid-column: 1;
 		grid-row: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		padding: 60px var(--gutter) 60px 72px;
-	}
-
-	.find-us__eyebrow {
-		align-self: flex-start;
-		margin: 0 0 20px;
+		padding: 48px 56px 48px var(--gutter);
 	}
 
 	.ft .find-us__title {
+		font-size: clamp(1.75rem, 2.8vw, 2.5rem);
 		color: var(--text);
 	}
 
@@ -585,10 +545,10 @@ const colonneFoto = [
 	}
 
 	.find-us__map {
-		grid-column: 1;
+		grid-column: 2;
 		grid-row: 1;
 		position: relative;
-		margin: 60px 0 60px var(--gutter);
+		margin: 48px var(--gutter) 48px 0;
 		overflow: hidden;
 		border-radius: var(--radius-lg);
 	}
@@ -606,7 +566,7 @@ const colonneFoto = [
 	.find-us__orari {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		margin-top: 36px;
+		margin-top: 28px;
 	}
 
 	/* Le righe delle due card stanno sulle stesse righe della griglia (subgrid): se in una
@@ -667,52 +627,11 @@ const colonneFoto = [
 		color: var(--text);
 	}
 
-	/* Indirizzo, telefono ed email: visibili e cliccabili (mappa, chiamata, posta). */
-	.find-us__contatti {
-		display: grid;
-		gap: 10px;
-		margin: 28px 0 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.find-us__contatti li {
-		display: grid;
-		grid-template-columns: 6.5rem 1fr;
-		align-items: baseline;
-		gap: 12px;
-	}
-
-	.find-us__contatti span {
-		font-family: var(--font-heading);
-		font-size: var(--text-xs);
-		font-weight: 800;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: rgba(0, 0, 0, 0.62);
-	}
-
-	.find-us__contatti a {
-		font-family: var(--font-heading);
-		font-size: var(--text-sm);
-		font-weight: 700;
-		color: var(--text);
-		text-decoration: none;
-		overflow-wrap: anywhere;
-	}
-
-	.find-us__contatti a:hover,
-	.find-us__contatti a:focus-visible {
-		color: var(--accent-hover);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-
 	.find-us__cta {
 		display: flex;
 		gap: 16px;
 		flex-wrap: wrap;
-		margin-top: 32px;
+		margin-top: 28px;
 	}
 
 	/* --- Colonne: brand + link del menu + info --- */
@@ -999,10 +918,6 @@ const colonneFoto = [
 			display: contents;
 		}
 
-		.find-us__eyebrow {
-			order: 1;
-		}
-
 		.ft .find-us__title {
 			order: 2;
 		}
@@ -1010,7 +925,7 @@ const colonneFoto = [
 		.find-us__map {
 			order: 3;
 			flex: none;
-			height: clamp(220px, 38svh, 320px);
+			height: clamp(180px, 28svh, 240px);
 			margin: 20px 0 0;
 		}
 
@@ -1037,15 +952,6 @@ const colonneFoto = [
 			padding: 8px 0;
 		}
 
-		.find-us__contatti {
-			order: 5;
-			margin-top: 20px;
-		}
-
-		.find-us__contatti li {
-			grid-template-columns: 5.5rem 1fr;
-		}
-
 		.find-us__cta {
 			order: 6;
 			margin-top: 20px;
@@ -1060,8 +966,7 @@ const colonneFoto = [
 
 		.ft-links a,
 		.ft-links button,
-		.ft-legal a,
-		.find-us__contatti a {
+		.ft-legal a {
 			display: inline-flex;
 			align-items: center;
 			min-height: 32px;

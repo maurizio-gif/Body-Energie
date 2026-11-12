@@ -75,11 +75,11 @@ const giorni = giorniDelPlanning();
 	breadcrumb="Orario corsi"
 >
 	<PageHero image="/wp-content/uploads/2025/11/Body-Energie-Ambienti-14-scaled.jpg" title="orario" words={['corsi']}>
-		<button class="btn btn--lg" type="button" data-open-contact data-interest="prova-gratuita">Prova ora</button>
+		<button class="btn btn--pillola btn--pillola-chiara btn--lg" type="button" data-open-contact data-interest="prova-gratuita">Prova ora</button>
 		<button class="btn btn--light btn--lg" type="button" data-open-contact data-interest="informazioni">Contattaci</button>
 	</PageHero>
 
-	<section class="orari on-dark" data-or>
+	<section class="orari sfuma on-dark" style="--da:var(--bg-dark);--a:var(--accent)" data-or>
 		<SectionTitle accent="corsi" gap={16}>
 			Orari
 			<Fragment slot="lato">Stagione {orario.stagione} · {orario.validita}</Fragment>
@@ -157,8 +157,9 @@ const giorni = giorniDelPlanning();
 </Layout>
 
 <style>
+	/* In fondo il nero sfuma nell'arancione della CTA del footer (gli ultimi 40px del padding). */
 	.orari {
-		padding-block: clamp(40px, 6vw, 80px);
+		padding-block: clamp(40px, 6vw, 80px) calc(clamp(40px, 6vw, 80px) + var(--sez-sfumo));
 		background: var(--bg-dark);
 		color: var(--text-on-dark);
 	}

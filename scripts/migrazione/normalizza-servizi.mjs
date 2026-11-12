@@ -41,9 +41,6 @@ const NOMI = {
 	'contributo-regione-veneto': 'Contributo Regione Veneto',
 };
 
-// Pagine con i blocchi arancioni alternati (nel vecchio sito il contenuto stava in riquadri arancioni).
-const STILE = { 'sala-pesi': 'arancio' };
-
 // Titolo grande delle pagine con un'introduzione "titolo + testo". Il vecchio sito non
 // lo aveva: e' un titolo scritto per questa migrazione, ricavato dal testo della pagina.
 const TITOLO_INTRO = { 'sala-pesi': 'Allenati tra innovazione e natura.' };
@@ -235,7 +232,6 @@ for (const slug of SERVIZI) {
 		tipo: 'servizio',
 		slug,
 		nome,
-		...(STILE[slug] ? { stile: STILE[slug] } : {}),
 		seo: seoDa(nome, primoTesto),
 		hero: { ...heroDa(el[0], slug), pulsanti: pulsantiHero(el[0], slug) },
 		...(intro ? { intro } : {}),

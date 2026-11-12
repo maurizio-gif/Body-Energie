@@ -12,7 +12,6 @@ export const site = {
 } as const;
 
 export const mapsEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.address)}&output=embed`;
-export const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(site.address)}`;
 
 // Icone SVG inline (viewBox 24x24): niente librerie esterne per tre simboli.
 export const social = [

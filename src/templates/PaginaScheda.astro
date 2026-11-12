@@ -16,6 +16,7 @@ import IntroTitolo from '../components/IntroTitolo.astro';
 import IndiceAncore from '../components/IndiceAncore.astro';
 import AltriCorsi from '../components/AltriCorsi.astro';
 import PlanningSezione from '../components/PlanningSezione.astro';
+import correlati from '../data/correlati.json';
 
 interface Pulsante {
 	testo: string;
@@ -28,8 +29,6 @@ interface Pulsante {
 interface Props {
 	pagina: {
 		tipo: 'corso' | 'servizio';
-		/** "arancio": i blocchi alterni (dopo il primo) sono arancioni invece che grigi. */
-		stile?: 'arancio';
 		slug: string;
 		nome: string;
 		seo: { title: string; description: string };
@@ -45,9 +44,30 @@ interface Props {
 
 const { pagina } = Astro.props;
 const foto = (pagina.galleria ?? []).map((src) => ({ src }));
-const arancio = pagina.stile === 'arancio';
 // L'introduzione conta come primo blocco nell'alternanza di colori e lati.
 const scarto = pagina.intro ? 1 : 0;
+
+// Colori delle sezioni, dall'alto in basso: nero e arancione alternati, sempre a partire dal nero.
+// Introduzione, striscia di foto, indice delle sezioni e "Altri corsi" stanno sul nero. Dove il colore
+// cambia, la sezione che finisce sfuma nella successiva (36 + 40 di sfumo + 36, vedi .sfuma); dopo
+// l'ultima sezione c'e' la CTA arancione del footer.
+type Tono = 'nero' | 'arancio';
+const tonoBlocco = (i: number): Tono => ((i + scarto) % 2 === 1 ? 'arancio' : 'nero');
+const conIndice = !pagina.intro && !!pagina.percorsi;
+const conAltri = ((correlati as Record<string, string[]>)[pagina.slug] ?? []).length > 0;
+const sezioni: { k: string; tono: Tono }[] = [
+	...(pagina.intro ? [{ k: 'intro', tono: 'nero' as Tono }] : []),
+	...(foto.length ? [{ k: 'foto', tono: 'nero' as Tono }] : []),
+	...pagina.blocchi.flatMap((_, i) => [{ k: `b${i}`, tono: tonoBlocco(i) }, ...(i === 0 && conIndice ? [{ k: 'indice', tono: 'nero' as Tono }] : [])]),
+	...(conAltri ? [{ k: 'altri', tono: 'nero' as Tono }] : []),
+];
+const pos = (k: string) => sezioni.findIndex((s) => s.k === k);
+/** Colore della sezione dopo (l'arancione del footer dopo l'ultima). */
+const dopo = (k: string): Tono => sezioni[pos(k) + 1]?.tono ?? 'arancio';
+/** Cambia colore subito dopo questa sezione: in fondo c'e' lo sfumo. */
+const sfuma = (k: string) => dopo(k) !== sezioni[pos(k)].tono;
+/** La sezione prima finisce con uno sfumo: meno spazio in cima. */
+const dopoSfumo = (k: string) => pos(k) > 0 && sfuma(sezioni[pos(k) - 1].k);
 
 // Le schede corso hanno sempre "Prova ora" e il planning; le altre pagine
 // portano i pulsanti che avevano sul vecchio sito (anche nessuno).
@@ -68,7 +88,7 @@ const sfondoSenzaMedia = (i: number) =>
 		{
 			pulsanti.map((p) =>
 				p.interesse ? (
-					<button class="btn btn--lg" type="button" data-open-contact data-interest={p.interesse}>
+					<button class="btn btn--pillola btn--pillola-chiara btn--lg" type="button" data-open-contact data-interest={p.interesse}>
 						{p.testo}
 					</button>
 				) : (
@@ -82,7 +102,7 @@ const sfondoSenzaMedia = (i: number) =>
 
 	{
 		pagina.intro && (
-			<IntroTitolo titolo={pagina.intro.titolo} html={pagina.intro.html}>
+			<IntroTitolo titolo={pagina.intro.titolo} html={pagina.intro.html} sfumoA={sfuma('intro') ? 'var(--accent)' : undefined}>
 				{pagina.percorsi && <IndiceAncore voci={pagina.percorsi.voci} label={pagina.percorsi.titolo ?? 'Sezioni della pagina'} griglia />}
 			</IntroTitolo>
 		)
@@ -90,7 +110,11 @@ const sfondoSenzaMedia = (i: number) =>
 
 	{
 		foto.length > 0 && (
-			<section class="scheda-foto" aria-label={`Foto: ${pagina.nome}`}>
+			<section
+				class:list={['scheda-foto', { sfuma: sfuma('foto') }]}
+				style={sfuma('foto') ? '--da:var(--bg-dark);--a:var(--accent)' : undefined}
+				aria-label={`Foto: ${pagina.nome}`}
+			>
 				<PhotoMarquee images={foto} height={300} cardWidth={420} />
 			</section>
 		)
@@ -103,13 +127,18 @@ const sfondoSenzaMedia = (i: number) =>
 					blocco={blocco}
 					fallbackImage={sfondoSenzaMedia(i)}
 					reverse={(i + scarto) % 2 === 1}
-					tone={(i + scarto) % 2 === 1 ? (arancio ? 'arancio' : 'soft') : 'dark'}
-					compatto={!pagina.intro && i === 0 && !!pagina.percorsi}
+					tone={tonoBlocco(i) === 'arancio' ? 'arancio' : 'dark'}
+					compatto={i === 0 && conIndice}
+					sfumoA={sfuma(`b${i}`) ? dopo(`b${i}`) : undefined}
+					dopoSfumo={dopoSfumo(`b${i}`)}
 				>
-					<PlanningSezione slug={pagina.slug} blocco={i} titolo={blocco.titolo ?? pagina.nome} />
+					<PlanningSezione slug={pagina.slug} blocco={i} titolo={blocco.titolo ?? pagina.nome} tone={tonoBlocco(i) === 'arancio' ? 'arancio' : 'dark'} />
 				</CourseBlock>
-				{!pagina.intro && i === 0 && pagina.percorsi && (
-					<div class="percorsi">
+				{i === 0 && conIndice && pagina.percorsi && (
+					<div
+						class:list={['percorsi', 'sez', { sfuma: sfuma('indice') }]}
+						style={sfuma('indice') ? '--da:var(--bg-dark);--a:var(--accent)' : undefined}
+					>
 						{pagina.percorsi.titolo && (
 							<SectionTitle tone="dark-bg" gap={20}>
 								{pagina.percorsi.titolo}
@@ -124,7 +153,7 @@ const sfondoSenzaMedia = (i: number) =>
 		))
 	}
 
-	<AltriCorsi slug={pagina.slug} titolo={pagina.tipo === 'corso' ? 'Altri corsi' : 'Scopri anche'} />
+	<AltriCorsi slug={pagina.slug} titolo={pagina.tipo === 'corso' ? 'Altri corsi' : 'Scopri anche'} dopoSfumo={conAltri && dopoSfumo('altri')} />
 </Layout>
 
 <style>
@@ -133,9 +162,15 @@ const sfondoSenzaMedia = (i: number) =>
 		background: var(--bg-dark);
 	}
 
-	/* Indice sotto il primo blocco (Body Lab): lo stesso spazio che c'e' tra hero e testo. */
+	/* Se dopo la striscia di foto il colore cambia, lo sfumo sta sotto le foto (non sopra). */
+	.scheda-foto.sfuma {
+		padding-bottom: calc(24px + var(--sez-sfumo));
+	}
+
+	/* Indice sotto il primo blocco (Body Lab): lo stesso spazio che c'e' tra hero e testo. I link
+	   sono alti 44px con il testo al centro: sotto si tolgono 10px. */
 	.percorsi {
-		padding-block: 20px calc(clamp(32px, 4vw, 56px) - 10px);
+		padding-block: 20px calc(var(--sez-pb) - 10px);
 		background: var(--bg-dark);
 	}
 </style>

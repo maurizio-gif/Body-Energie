@@ -259,17 +259,17 @@ const testimonianze = [
 		<h1 class="hero__title" data-intro>BODY <span class="accent-text">ENERGIE</span></h1>
 		<p class="hero__lead" data-intro style="--intro-delay: 0.2s">Dove sport, movimento e benessere si incontrano.</p>
 		<div data-intro style="--intro-delay: 0.4s">
-			<button class="btn hero__btn" type="button" data-open-contact data-interest="prova-gratuita">Prova ora</button>
+			<button class="btn btn--pillola btn--pillola-chiara btn--lg" type="button" data-open-contact data-interest="prova-gratuita">Prova ora</button>
 		</div>
 	</HeroCarousel>
 
-	<section class="block--black">
+	<section class="block--black sfuma-blocco" style="--da: var(--bg-dark); --a: var(--accent)">
 		<div data-anim="fade">
 			<PhotoMarquee images={fotoCarosello} />
 		</div>
 	</section>
 
-	<section class="block--orange">
+	<section class="block--orange sfuma-blocco" style="--da: var(--accent); --a: var(--bg-dark-deep)">
 		<div class="storia__inner">
 			<div
 				class="storia__foto"
@@ -407,29 +407,29 @@ const testimonianze = [
 
 
 	<section class="attivita">
-		<div class="attivita__block" style="--block-bg:var(--bg-dark-deep)">
+		<div class="attivita__block sfuma" style="--block-bg:var(--bg-dark-deep); --da:var(--bg-dark-deep); --a:var(--bg-dark)">
 			<SectionTitle accent="per adulti" gap={0}>Attività</SectionTitle>
 			<ActivityGrid items={attivitaAdulti} gapTop={35} />
 		</div>
 
-		<div class="attivita__block" style="--block-bg:var(--bg-dark)">
+		<div class="attivita__block sfuma" style="--block-bg:var(--bg-dark); --da:var(--bg-dark); --a:var(--bg-dark-soft)">
 			<SectionTitle accent="per bambini" gap={0}>Attività</SectionTitle>
 			<ActivityGrid items={attivitaBambini} gapTop={35} />
 		</div>
 
-		<div class="attivita__block" style="--block-bg:var(--bg-dark-soft)">
+		<div class="attivita__block sfuma" style="--block-bg:var(--bg-dark-soft); --da:var(--bg-dark-soft); --a:var(--bg-dark-deep)">
 			<SectionTitle accent="Lab" gap={0}>Body</SectionTitle>
 			<ActivityGrid items={bodyLab.slice(0, 3)} gapTop={35} />
 			<ActivityGrid items={bodyLab.slice(3)} columns={2} startIndex={3} gapTop={20} />
 		</div>
 
-		<div class="attivita__block" style="--block-bg:var(--bg-dark-deep)">
+		<div class="attivita__block sfuma" style="--block-bg:var(--bg-dark-deep); --da:var(--bg-dark-deep); --a:var(--accent)">
 			<SectionTitle accent="extra" gap={0}>Servizi</SectionTitle>
 			<ActivityGrid items={serviziExtra} columns={2} gapTop={35} />
 		</div>
 	</section>
 
-	<section class="block--orange section" id="struttura">
+	<section class="block--orange section sfuma" id="struttura" style="--da: var(--accent); --a: var(--bg-dark)">
 		<SectionTitle tone="on-accent">La Struttura</SectionTitle>
 		<StrutturaRow items={accordionItems.slice(0, 2)} />
 		<StrutturaRow items={accordionItems.slice(2, 4)} />
@@ -461,13 +461,13 @@ const testimonianze = [
 					<h2>Orari di Body Energie</h2>
 					<p>Sport, movimento e benessere che si incontrano.</p>
 					<p>Scopri il Planning delle nostre attività e programma la tua settimana di Sport e Benessere!</p>
-					<a class="btn" href="/orari">Planning settimanale</a>
+					<a class="btn btn--pillola" href="/orari">Planning settimanale</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="block--black section testimonianze">
+	<section class="block--black section testimonianze sfuma" style="--da: var(--bg-dark); --a: var(--accent)">
 		<SectionTitle align="right" line="text" gap={40}>Cosa pensano i nostri soci</SectionTitle>
 		<div class="container-wide">
 			<div class="testimonianze__grid">
@@ -505,17 +505,31 @@ const testimonianze = [
 		color: var(--text-on-dark);
 	}
 
-	.hero__btn {
-		padding: 20px 55px;
-		font-size: 20px;
+	/* ---- Sfumi tra le sezioni ----
+	   Tra due sezioni c'e' la fascia di 56px (".main--stack" in global.css). Dove il colore cambia:
+	   - ".sfuma-blocco" (sezioni senza spazio in fondo: striscia di foto, storia): i primi 40px della
+	     fascia diventano uno sfumo dal colore della sezione (--da) a quello della successiva (--a),
+	     e restano 16px pieni;
+	   - ".sfuma" (global.css, sezioni con padding in fondo: blocchi attivita', struttura,
+	     testimonianze): 36px pieni + 40px di sfumo in fondo alla sezione, poi 36px di fascia. */
+	.sfuma-blocco::after {
+		content: '';
+		display: block;
+		height: var(--sez-sfumo);
+		background: linear-gradient(to bottom, var(--da), var(--a));
 	}
 
-	/* Mobile: pulsante piu' compatto. */
-	@media (max-width: 900px) {
-		.hero__btn {
-			padding: 13px 32px;
-			font-size: 16px;
-		}
+	.sfuma-blocco + section {
+		border-top-width: 16px;
+	}
+
+	section.sfuma + section,
+	.attivita + section {
+		border-top-width: 36px;
+	}
+
+	section.section.sfuma {
+		padding-bottom: var(--sez-sotto-sfumo);
 	}
 
 	.section {
@@ -528,9 +542,15 @@ const testimonianze = [
 		padding-top: 0;
 	}
 
+	/* Ogni blocco sfuma nel successivo (l'ultimo nell'arancione della struttura): 36px pieni + 40 di
+	   sfumo in fondo, 36px in cima al blocco dopo. */
 	.attivita__block {
 		background: var(--block-bg);
-		padding-block: 56px;
+		padding-block: 56px var(--sez-sotto-sfumo);
+	}
+
+	.attivita__block + .attivita__block {
+		padding-top: var(--sez-sopra-sfumo);
 	}
 
 	/* Stesso discorso: il primo blocco della sezione "attivita" e' gia'

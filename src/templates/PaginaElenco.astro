@@ -36,8 +36,11 @@ const card = (corsi: { nome: string; slug: string }[]) =>
 // in una seconda riga a due colonne.
 const colonne = (n: number) => (n <= 4 ? n : 3);
 
-// Fondi alternati, come i blocchi delle attivita' nella home.
+// Fondi alternati, come i blocchi delle attivita' nella home. Ogni sezione sfuma nel colore della
+// successiva (vedi .sfuma); l'ultima nell'arancione della CTA del footer.
 const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
+const fondo = (i: number) => fondi[i % fondi.length];
+const seguente = (i: number) => (i + 1 < pagina.gruppi.length ? fondo(i + 1) : 'var(--accent)');
 ---
 
 <Layout title={pagina.seo.title} description={pagina.seo.description} image={pagina.hero.immagine} breadcrumb={pagina.nome} headerTone="overlay">
@@ -45,7 +48,7 @@ const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
 		{
 			pagina.hero.pulsanti?.map((p) =>
 				p.interesse ? (
-					<button class="btn btn--lg" type="button" data-open-contact data-interest={p.interesse}>
+					<button class="btn btn--pillola btn--pillola-chiara btn--lg" type="button" data-open-contact data-interest={p.interesse}>
 						{p.testo}
 					</button>
 				) : (
@@ -57,7 +60,7 @@ const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
 		}
 	</PageHero>
 
-	<IntroTitolo titolo={pagina.intro.titolo} html={pagina.intro.html} />
+	<IntroTitolo titolo={pagina.intro.titolo} html={pagina.intro.html} sfumoA={pagina.gruppi.length ? fondo(0) : 'var(--accent)'} />
 
 	{
 		pagina.gruppi.map((g, i) => {
@@ -65,7 +68,7 @@ const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
 			const prima = items.slice(0, colonne(items.length));
 			const resto = items.slice(prima.length);
 			return (
-				<section class="gruppo on-dark" style={`--gruppo-bg:${fondi[i % fondi.length]}`}>
+				<section class="gruppo sez sfuma dopo-sfumo on-dark" style={`--gruppo-bg:${fondo(i)};--da:${fondo(i)};--a:${seguente(i)}`}>
 					<SectionTitle tone="dark-bg" gap={16}>
 						{g.titolo}
 					</SectionTitle>
@@ -79,9 +82,9 @@ const fondi = ['var(--bg-dark-soft)', 'var(--bg-dark)'];
 </Layout>
 
 <style>
-	/* Stessa struttura dei blocchi "Attivita'" della home: fondo alternato, 56px sopra e sotto. */
+	/* Stessa struttura dei blocchi "Attivita'" della home: fondo alternato, sfumo verso la sezione dopo. */
 	.gruppo {
-		padding-block: 56px;
+		padding-block: var(--sez-pt) var(--sez-pb);
 		background: var(--gruppo-bg);
 		color: var(--text-on-dark);
 	}
